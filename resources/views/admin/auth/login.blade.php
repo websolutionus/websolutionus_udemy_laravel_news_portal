@@ -40,10 +40,14 @@
               <div class="card-header"><h4>Login</h4></div>
 
               <div class="card-body">
-                <form method="POST" action="#" class="needs-validation" novalidate="">
+                <form method="POST" action="{{ route('admin.handle-login') }}" class="needs-validation" novalidate="">
+                    @csrf
                   <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                    @error('email')
+                        <code>{{ $message }}</code>
+                    @enderror
                     <div class="invalid-feedback">
                       Please fill in your email
                     </div>

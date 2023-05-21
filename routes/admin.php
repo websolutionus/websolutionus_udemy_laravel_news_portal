@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
     Route::get('login', [AdminAuthenticationController::class, 'login'])->name('login');
+    Route::post('login', [AdminAuthenticationController::class, 'handleLogin'])->name('handle-login');
+
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']], function(){
