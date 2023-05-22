@@ -37,13 +37,14 @@
             </div>
 
             <div class="card card-primary">
-              <div class="card-header"><h4>Login</h4></div>
+              <div class="card-header"><h4>Forgot Password</h4></div>
 
               <div class="card-body">
+                <p >Forgot your password? No problem. We got you.</p>
                 @if (session()->has('success'))
                     <i><b style="color:green">{{ session()->get('success') }}</b></i>
                 @endif
-                <form method="POST" action="{{ route('admin.handle-login') }}" class="needs-validation" novalidate="">
+                <form method="POST" action="{{ route('admin.forgot-password.send') }}" class="needs-validation" novalidate="">
                     @csrf
                   <div class="form-group">
                     <label for="email">Email</label>
@@ -57,30 +58,8 @@
                   </div>
 
                   <div class="form-group">
-                    <div class="d-block">
-                    	<label for="password" class="control-label">Password</label>
-                      <div class="float-right">
-                        <a href="{{ route('admin.forgot-password') }}" class="text-small">
-                          Forgot Password?
-                        </a>
-                      </div>
-                    </div>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
-                    <div class="invalid-feedback">
-                      please fill in your password
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                      <label class="custom-control-label" for="remember-me">Remember Me</label>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      Login
+                      Send Link
                     </button>
                   </div>
                 </form>
