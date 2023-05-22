@@ -31,6 +31,8 @@
                                     <div id="image-preview" class="image-preview mb-3" >
                                         <label for="image-upload" id="image-label">{{ __('Choose File') }}</label>
                                         <input type="file" name="image" id="image-upload">
+                                        <input type="hidden" name="old_image" value="{{ $user->image }}">
+
                                     </div>
                                     @error('image')
                                     <p class="text-danger">{{ $message }}</p>
