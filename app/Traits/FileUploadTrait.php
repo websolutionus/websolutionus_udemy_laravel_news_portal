@@ -7,18 +7,17 @@ use File;
 
 trait FileUploadTrait
 {
-    public function handleFileUpload(Request $request, string $fieldName, ?string $oldPath = null, string $dir = 'uploads'): String
+    public function handleFileUpload(Request $request, string $fieldName, ?string $oldPath = null, string $dir = 'uploads'): ?String
     {
-        /** Delete the existing image if have */
-        if($oldPath && File::exists(public_path($oldPath))){
-            File::delete(public_path($oldPath));
-        }
-
         /** Check request has file */
         if(!$request->hasFile($fieldName)){
             return null;
         }
 
+        /** Delete the existing image if have */
+        if($oldPath && File::exists(public_path($oldPath))){
+            File::delete(public_path($oldPath));
+        }
 
         $file = $request->file($fieldName);
         $extension = $file->getClientOriginalExtension();
