@@ -57,6 +57,8 @@
     <!-- JS Libraies -->
     <script src="{{ asset('admin/assets/modules/summernote/summernote-bs4.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js') }}"></script>
+    @include('sweetalert::alert')
+
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
@@ -73,6 +75,7 @@
             success_callback: null          // Default: null
         });
     </script>
+
 
     @stack('scripts')
 </body>

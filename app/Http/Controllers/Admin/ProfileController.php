@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Alert;
 
 class ProfileController extends Controller
 {
@@ -23,38 +24,6 @@ class ProfileController extends Controller
     {
         $user = Auth::guard('admin')->user();
         return view('admin.profile.index', compact('user'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -73,6 +42,8 @@ class ProfileController extends Controller
         $admin->email = $request->email;
         $admin->save();
 
+        toast(__('Updated Successfully'),'success')->width('400');
+
         return redirect()->back();
 
     }
@@ -86,14 +57,8 @@ class ProfileController extends Controller
         $admin->password = bcrypt($request->password);
         $admin->save();
 
-        return redirect()->back();
-    }
+        toast(__('Updated Successfully'),'success')->width('400');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->back();
     }
 }
