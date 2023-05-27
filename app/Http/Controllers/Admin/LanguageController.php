@@ -87,6 +87,9 @@ class LanguageController extends Controller
     {
         try {
             $language = Language::findOrFail($id);
+            if($language->lang === 'en'){
+                return response(['status' => 'error', 'message' => __('Can\'t Delete This One!')]);
+            }
             $language->delete();
             return response(['status' => 'success', 'message' => __('Deleted Successfully!')]);
         } catch (\Throwable $th) {
