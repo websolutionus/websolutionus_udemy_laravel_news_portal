@@ -3,21 +3,21 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Language</h1>
+            <h1>{{ __('Language') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>Create Language</h4>
+                <h4>{{ __('Create Language') }}</h4>
 
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.language.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="">Language</label>
+                        <label for="">{{ __('Language') }}</label>
                         <select name="lang" id="language-select" class="form-control select2">
-                            <option value="">--Select--</option>
+                            <option value="">--{{ __('Select') }}--</option>
                             @foreach (config('language') as $key => $lang)
                                 <option value="{{ $key }}">{{ $lang['name'] }}</option>
                             @endforeach
@@ -28,40 +28,40 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="">Name</label>
+                        <label for="">{{ __('Name') }}</label>
                         <input readonly name="name" type="text" class="form-control" id="name">
                         @error('name')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">Slug</label>
+                        <label for="">{{ __('Slug') }}</label>
                         <input readonly name="slug" type="text" class="form-control" id="slug">
                         @error('slug')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">Is it default? </label>
+                        <label for="">{{ __('Is it default?') }} </label>
                         <select name="default" id="" class="form-control">
-                            <option value="0">No</option>
-                            <option value="1">Yes</option>
+                            <option value="0">{{ __('No') }}</option>
+                            <option value="1">{{ __('Yes') }}</option>
                         </select>
                         @error('defalut')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">Status</label>
+                        <label for="">{{ __('Status') }}</label>
                         <select name="status" id="" class="form-control">
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option value="1">{{ __('Active') }}</option>
+                            <option value="0">{{ __('Inactive') }}</option>
                         </select>
                         @error('status')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
                 </form>
             </div>
         </div>
