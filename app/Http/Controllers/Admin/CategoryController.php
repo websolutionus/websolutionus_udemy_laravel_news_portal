@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminCategoryCreateRequest;
 use App\Models\Category;
 use App\Models\Language;
+use Faker\Provider\ar_EG\Company;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -15,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.index');
+        $languages = Language::all();
+        return view('admin.category.index', compact('languages'));
     }
 
     /**
