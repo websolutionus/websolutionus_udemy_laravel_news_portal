@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminLanguageStoreRequest;
+use App\Http\Requests\AdminLanguageUpdateRequest;
 use App\Models\Language;
 use Illuminate\Http\Request;
 
@@ -57,15 +58,26 @@ class LanguageController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $language = Language::findOrFail($id);
+        return view('admin.language.edit', compact('language'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AdminLanguageUpdateRequest $request, string $id)
     {
-        //
+        $language = Language::findOrFail($id);
+        $language->name = $request->name;
+        $language->lang = $request->lang;
+        $language->slug = $request->slug;
+        $language->default = $request->default;
+        $language->status = $request->status;
+        $language->save();
+
+        toast(__('Updated Successfully'),'success')->width('350');
+
+        return redirect()->route('admin.language.index');
     }
 
     /**
