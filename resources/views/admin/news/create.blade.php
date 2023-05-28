@@ -29,9 +29,9 @@
 
                     <div class="form-group">
                         <label for="">{{ __('Category') }}</label>
-                        <select name="category" id="" class="form-control">
+                        <select name="category" id="category" class="form-control select2">
                             <option value="">--{{ __('Select') }}---</option>
-                            <option value=""></option>
+
                         </select>
                         @error('category')
                             <p class="text-danger">{{ $message }}</p>
@@ -133,3 +133,30 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#language-select').on('change', function(){
+                let lang = $(this).val();
+                $.ajax({
+                    method: 'GET',
+                    url: "{{ route('admin.fetch-news-category') }}",
+                    data: {lang:lang},
+                    success: function(data){
+                        $('#category').html("");
+                        $('#category').html(`<option value="">---{{ __('Select') }}---</option>`);
+
+                        $.each(data, function(index, data){
+                            $('#category').append(`<option value="${data.id}">${data.name}</option>`)
+                        })
+
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                })
+            })
+        })
+    </script>
+@endpush
