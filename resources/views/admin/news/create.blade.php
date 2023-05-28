@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="">{{ __('Ttile') }}</label>
                         <input name="title" type="text" class="form-control" id="name">
-                        @error('name')
+                        @error('title')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
@@ -69,7 +69,9 @@
                     <div class="form-group">
                         <label class="">{{ __('Tags') }}</label>
                         <input name="tags" type="text" class="form-control inputtags">
-
+                        @error('tags')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form-group">
