@@ -7,6 +7,7 @@ use App\Http\Requests\AdminNewsCreateRequest;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\News;
+use App\Models\Tag;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +66,21 @@ class NewsController extends Controller
         $news->status = $request->status == 1 ? 1 : 0;
         $news->save();
 
-        toast(__('Created Successfully!'), 'success')->width('130');
+        $tags = explode(',', $request->tags);
+        $tagIds = [];
+
+        foreach($tags as $tag){
+            $item = new Tag();
+            $item->name = $tag;
+            $item->save();
+
+            $tagIds[] = $item->id;
+        }
+
+        $news->tags()->attach($tagIds);
+
+
+        toast(__('Created Successfully!'), 'success')->width('330');
 
         return redirect()->route('admin.news.index');
 
