@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/datatables/datatables.min.css') }}">
     <link rel="stylesheet"
         href="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
@@ -66,7 +66,7 @@
     <script src="{{ asset('admin/assets/modules/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">
     </script>
-     <script src="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
 
     <script src="{{ asset('admin/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
     <!-- Sweet Alert Js -->
@@ -98,8 +98,21 @@
             }
         });
 
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
         /** Handle Dynamic delete **/
         $(document).ready(function() {
+
             $('.delete-item').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
@@ -118,20 +131,20 @@
                             method: 'DELETE',
                             url: url,
                             success: function(data) {
-                               if(data.status === 'success'){
-                                Swal.fire(
-                                    'Deleted!',
-                                    data.message,
-                                    'success'
-                                )
-                                window.location.reload();
-                               }else if(data.status === 'error'){
-                                Swal.fire(
-                                    'Error!',
-                                    data.message,
-                                    'error'
-                                )
-                               }
+                                if (data.status === 'success') {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        data.message,
+                                        'success'
+                                    )
+                                    window.location.reload();
+                                } else if (data.status === 'error') {
+                                    Swal.fire(
+                                        'Error!',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
                             },
                             error: function(xhr, status, error) {
                                 console.error(error);
