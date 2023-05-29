@@ -106,7 +106,7 @@
                                                     <td>
                                                         <a href="{{ route('admin.news.edit', $item->id) }}"
                                                             class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <a href="{{ route('admin.category.destroy', $item->id) }}"
+                                                        <a href="{{ route('admin.news.destroy', $item->id) }}"
                                                             class="btn btn-danger delete-item"><i
                                                                 class="fas fa-trash-alt"></i></a>
                                                     </td>
