@@ -59,7 +59,7 @@
                                             @foreach ($news as $item)
                                                 <tr>
                                                     <td>{{ $item->id }}</td>
-                                                    <td>
+                                                    <td >
                                                         <img src="{{ asset($item->image) }}" width="100" alt="">
                                                     </td>
 
@@ -109,6 +109,8 @@
                                                         <a href="{{ route('admin.news.destroy', $item->id) }}"
                                                             class="btn btn-danger delete-item"><i
                                                                 class="fas fa-trash-alt"></i></a>
+                                                        <a href="{{ route('admin.news-copy', $item->id) }}"
+                                                            class="btn btn-primary"><i class="fas fa-copy"></i></i></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -133,10 +135,12 @@
     <script>
         @foreach ($languages as $language)
             $("#table-{{ $language->lang }}").dataTable({
-                "columnDefs": [{
-                    "sortable": false,
-                    "targets": [2, 3]
-                }],
+                "columnDefs": [
+                    {
+                        "sortable": false,
+                        "targets": [2, 3]
+                    }
+                ],
                 "order": [
                     [0, 'desc']
                 ]
