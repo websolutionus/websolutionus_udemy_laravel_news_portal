@@ -18,4 +18,9 @@ class News extends Model
     {
         return $this->belongsToMany(Tag::class, 'news_tags');
     }
+
+    public function auther()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 }
