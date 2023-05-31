@@ -21,7 +21,7 @@ class HomeController extends Controller
 
     public function ShowNews(string $slug)
     {
-        $news = News::with(['auther', 'tags'])->where('slug', $slug)
+        $news = News::with(['auther', 'tags', 'comments'])->where('slug', $slug)
             ->activeEntries()->withLocalize()
             ->first();
 
@@ -30,6 +30,7 @@ class HomeController extends Controller
 
         $mostCommonTags = $this->mostCommonTags();
 
+        
         $this->countView($news);
 
        return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags'));
