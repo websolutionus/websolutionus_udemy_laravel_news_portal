@@ -187,7 +187,7 @@
                     <h3 class="comments-title">2 Comments:</h3>
 
                     <ol class="comment-list">
-                        @foreach ($news->comments as $comment)
+                        @foreach ($news->comments()->whereNull('parent_id')->get() as $comment)
                             
                         <li class="comment">
                             <aside class="comment-body">
@@ -213,40 +213,40 @@
 
                                 <div class="reply">
                                     <a href="#" class="comment-reply-link" data-toggle="modal"
-                                        data-target="#exampleModal">Reply</a>
+                                        data-target="#exampleModal-{{ $comment->id }}">Reply</a>
                                     <span>
                                         <i class="fa fa-trash"></i>
                                     </span>
                                 </div>
                             </aside>
-
+                            
+                            @if ($comment->replay()->count() > 0)
+                            @foreach ($comment->replay as $replay)
+                                
                             <ol class="children">
                                 <li class="comment">
                                     <aside class="comment-body">
                                         <div class="comment-meta">
                                             <div class="comment-author vcard">
-                                                <img src="images/news3.jpg" class="avatar" alt="image">
-                                                <b class="fn">Sinmun</b>
+                                                <img src="{{ asset('frontend/assets/images/avatar.png') }}" class="avatar" alt="image">
+                                                <b class="fn">{{ $replay->user->name }}</b>
                                                 <span class="says">says:</span>
                                             </div>
 
                                             <div class="comment-metadata">
-                                                <a href="#">
-                                                    <span>April 24, 2019 at 10:59 am</span>
+                                                <a href="javascript:;">
+                                                    <span>{{ date('M, d, Y H:i', strtotime($replay->created_at)) }}</span>
                                                 </a>
                                             </div>
                                         </div>
 
                                         <div class="comment-content">
-                                            <p>Lorem Ipsum has been the industry’s standard dummy text ever since
-                                                the 1500s, when an
-                                                unknown printer took a galley of type and scrambled it to make a
-                                                type specimen book.</p>
+                                            <p>{{ $replay->comment }}</p>
                                         </div>
 
                                         <div class="reply">
                                             <a href="#" class="comment-reply-link" data-toggle="modal"
-                                                data-target="#exampleModal">Reply</a>
+                                                data-target="#exampleModal-{{ $comment->id }}">Reply</a>
                                             <span>
                                                 <i class="fa fa-trash"></i>
                                             </span>
@@ -254,7 +254,38 @@
                                     </aside>
                                 </li>
                             </ol>
+                            @endforeach
+                            @endif
+
                         </li>
+
+                        <!-- Modal -->
+                        <div class="comment_modal">
+                            <div class="modal fade" id="exampleModal-{{ $comment->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Write Your Comment</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('news-comment-replay') }}" method="POST">
+                                                @csrf
+                                                <textarea name="replay" cols="30" rows="7" placeholder="Type. . ."></textarea>
+                                                <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+
+                                                <button type="submit">submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         @endforeach
 
                     </ol>
@@ -295,28 +326,7 @@
                 </div>
                 @endauth
 
-                <!-- Modal -->
-                <div class="comment_modal">
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Write Your Comment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="#">
-                                        <textarea cols="30" rows="7" placeholder="Type. . ."></textarea>
-                                        <button type="submit">submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- end comment -->
 
