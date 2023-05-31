@@ -18,13 +18,16 @@ class HomeController extends Controller
 
     public function ShowNews(string $slug)
     {
-        $news = News::with(['auther'])->where('slug', $slug)
+        $news = News::with(['auther', 'tags'])->where('slug', $slug)
             ->activeEntries()->withLocalize()
             ->first();
 
+        $recentNews = News::with(['category', 'auther'])->where('slug','!=', $news->slug)
+            ->activeEntries()->withLocalize()->orderBy('id', 'DESC')->take(4)->get();
+
         $this->countView($news);
 
-       return view('frontend.news-details', compact('news'));
+       return view('frontend.news-details', compact('news', 'recentNews'));
     }
 
     public function countView($news)
