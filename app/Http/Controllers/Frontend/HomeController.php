@@ -61,4 +61,12 @@ class HomeController extends Controller
             ->take(15)
             ->get();
     }
+
+    public function handleComment(Request $request)
+    {
+        $request->validate([
+            'comment' => ['required', 'string', 'max:1000']
+        ]);
+        
+    }
 }
