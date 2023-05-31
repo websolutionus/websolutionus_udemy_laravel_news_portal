@@ -182,6 +182,7 @@
                 <!-- end author-->
 
                 <!-- Comment  -->
+                @auth      
                 <div id="comments" class="comments-area">
                     <h3 class="comments-title">2 Comments:</h3>
 
@@ -270,6 +271,9 @@
                                 <label for="comment">Comment</label>
                                 <textarea name="comment" id="comment" cols="45" rows="5" maxlength="65525"
                                     required="required"></textarea>
+                                <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                <input type="hidden" name="parent_id" value="">
+
                                 @error('comment')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -281,6 +285,14 @@
                         </form>
                     </div>
                 </div>
+                @else
+                <div class="card my-5">
+                    <div class="card-body">
+                        <h5 class="p-0">Please <a href="{{ route('login') }}">Login</a> to comment in the post!</5>
+                    </div>
+                </div>
+                @endauth
+
                 <!-- Modal -->
                 <div class="comment_modal">
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
