@@ -336,18 +336,22 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="single_navigation-prev">
-                            <a href="#">
-                                <span>previous post</span>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, similique.
+                            @if ($previousPost)
+                            <a href="{{ route('news-details', $previousPost->slug) }}">
+                                <span>{{ __('previous post') }}</span>
+                                {!! truncate($previousPost->title) !!}
                             </a>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="single_navigation-next text-left text-md-right">
-                            <a href="#">
-                                <span>next post</span>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis, nesciunt.
+                            @if ($nextPost)
+                            <a href="{{ route('news-details', $nextPost->slug) }}">
+                                <span>{{ __('next post') }}</span>
+                                {!! truncate($nextPost->title) !!}
                             </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -361,169 +365,49 @@
 
                 <div class="clearfix"></div>
 
+                @if (count($relatedPosts) > 0)
                 <div class="related-article">
                     <h4>
                         you may also like
                     </h4>
-
                     <div class="article__entry-carousel-three">
+                        @foreach ($relatedPosts as $post)
                         <div class="item">
                             <!-- Post Article -->
                             <div class="article__entry">
                                 <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage5.png" alt="" class="img-fluid">
+                                    <a href="{{ route('news-details', $post->slug) }}">
+                                        <img src="{{ asset($post->image) }}" alt="" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="article__content">
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
                                             <span class="text-primary">
-                                                by david hall
+                                                by {{ $post->auther->name }}
                                             </span>
                                         </li>
                                         <li class="list-inline-item">
                                             <span>
                                                 descember 09, 2016
+                                                {{ date('M d, Y', strtotime($post->created_at)) }}
                                             </span>
                                         </li>
 
                                     </ul>
                                     <h5>
-                                        <a href="#">
-                                            Maecenas accumsan tortor ut velit pharetra mollis.
+                                        <a href="{{ route('news-details', $post->slug) }}">
+                                            {!! truncate($post->title) !!}
                                         </a>
                                     </h5>
 
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage6.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span>
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Maecenas accumsan tortor ut velit pharetra mollis.
-                                        </a>
-                                    </h5>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage7.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span>
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Maecenas accumsan tortor ut velit pharetra mollis.
-                                        </a>
-                                    </h5>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage8.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span>
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Maecenas accumsan tortor ut velit pharetra mollis.
-                                        </a>
-                                    </h5>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage9.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span>
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Maecenas accumsan tortor ut velit pharetra mollis.
-                                        </a>
-                                    </h5>
-
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+                @endif
 
             </div>
             <div class="col-md-4">
