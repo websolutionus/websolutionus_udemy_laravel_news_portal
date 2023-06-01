@@ -30,7 +30,7 @@ class HomeController extends Controller
 
         $mostCommonTags = $this->mostCommonTags();
 
-        
+
         $this->countView($news);
 
        return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags'));
@@ -67,7 +67,7 @@ class HomeController extends Controller
 
     public function handleComment(Request $request)
     {
-        
+
         $request->validate([
             'comment' => ['required', 'string', 'max:1000']
         ]);
@@ -84,7 +84,7 @@ class HomeController extends Controller
 
     public function handleReplay(Request $request)
     {
-    
+
         $request->validate([
             'replay' => ['required', 'string', 'max:1000']
         ]);
@@ -97,5 +97,16 @@ class HomeController extends Controller
         $comment->save();
 
         return redirect()->back();
+    }
+
+    public function commentDestory(Request $request)
+    {
+        $comment = Comment::findOrFail($request->id);
+        if(Auth::user()->id === $comment->user_id){
+            $comment->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }
+
+        return response(['status' => 'error', 'message' => 'Someting went wrong!']);
     }
 }
