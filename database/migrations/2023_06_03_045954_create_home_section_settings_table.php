@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('home_section_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('category_section_one');
+            $table->string('category_section_two');
+            $table->string('category_section_three');
+            $table->string('category_section_four');
+            $table->string('language');
             $table->timestamps();
         });
     }
