@@ -7,7 +7,7 @@
                         <h4 class="border_section">{{ __('recent post') }}</h4>
                     </div>
                     <div class="row ">
-                        @foreach ($recentNews as $news)  
+                        @foreach ($recentNews as $news)
                         @if ($loop->index <= 1)
                         <div class="col-sm-12 col-md-6 mb-4">
                             <!-- Post Article -->
@@ -36,7 +36,7 @@
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <span>
-                                                        
+
                                                         {{ date('M d, Y', strtotime($news->create_at)) }}
                                                     </span>
                                                 </li>
@@ -54,8 +54,8 @@
                     <div class="row ">
                         <div class="col-sm-12 col-md-6">
                             <div class="wrapp__list__article-responsive">
-                                @foreach ($recentNews as $news)  
-                                @if ($loop->index > 1 && $loop->index <= 3) 
+                                @foreach ($recentNews as $news)
+                                @if ($loop->index > 1 && $loop->index <= 3)
                                 <div class="mb-3">
                                     <!-- Post Article -->
                                     <div class="card__post card__post-list">
@@ -101,8 +101,8 @@
                         </div>
                         <div class="col-sm-12 col-md-6 ">
                             <div class="wrapp__list__article-responsive">
-                                @foreach ($recentNews as $news)  
-                                @if ($loop->index > 3 && $loop->index <= 5) 
+                                @foreach ($recentNews as $news)
+                                @if ($loop->index > 3 && $loop->index <= 5)
                                 <div class="mb-3">
                                     <!-- Post Article -->
                                     <div class="card__post card__post-list">
@@ -152,101 +152,32 @@
 
                 <div class="col-md-12 col-lg-4">
                     <aside class="wrapper__list__article">
-                        <h4 class="border_section">popular post</h4>
+                        <h4 class="border_section">{{ __('popular post') }}</h4>
                         <div class="wrapper__list-number">
 
                             <!-- List Article -->
-                            <div class="card__post__list">
-                                <div class="list-number">
-                                    <span>
-                                        1
-                                    </span>
+                            @foreach ($popularNews  as $popularNews)
+                                <div class="card__post__list">
+                                    <div class="list-number">
+                                        <span>
+                                            {{ ++$loop->index }}
+                                        </span>
+                                    </div>
+                                    <a href="#" class="category">
+                                        {{ $popularNews->category->name }}
+                                    </a>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <h5>
+                                                <a href="{{ route('news-details', $popularNews->slug) }}">
+                                                    {!! truncate($popularNews->title) !!}
+
+                                                </a>
+                                            </h5>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <a href="#" class="category">
-                                    covid-19
-                                </a>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <h5>
-                                            <a href="#">
-                                                Gegera Corona, Kekayaan Bos Zoom Nambah Rp 64 T dalam 3 Bulan - CNBC
-                                                Indonesia
-
-                                            </a>
-                                        </h5>
-                                    </li>
-                                </ul>
-                            </div>
-
-
-                            <div class="card__post__list">
-                                <div class="list-number">
-                                    <span>
-                                        2
-                                    </span>
-                                </div>
-                                <a href="#" class="category">
-                                    Startup
-                                </a>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <h5>
-                                            <a href="#">
-                                                Gegera Corona, Kekayaan Bos Zoom Nambah Rp 64 T dalam 3 Bulan - CNBC
-                                                Indonesia
-
-                                            </a>
-                                        </h5>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- List Article -->
-                            <div class="card__post__list">
-                                <div class="list-number">
-                                    <span>
-                                        1
-                                    </span>
-                                </div>
-                                <a href="#" class="category">
-                                    covid-19
-                                </a>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-
-                                        <h5>
-                                            <a href="#">
-                                                Gegera Corona, Kekayaan Bos Zoom Nambah Rp 64 T dalam 3 Bulan - CNBC
-                                                Indonesia
-
-                                            </a>
-                                        </h5>
-                                    </li>
-                                </ul>
-
-                            </div>
-
-
-                            <div class="card__post__list">
-                                <div class="list-number">
-                                    <span>
-                                        2
-                                    </span>
-                                </div>
-                                <a href="#" class="category">
-                                    Startup
-                                </a>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <h5>
-                                            <a href="#">
-                                                Gegera Corona, Kekayaan Bos Zoom Nambah Rp 64 T dalam 3 Bulan - CNBC
-                                                Indonesia
-
-                                            </a>
-                                        </h5>
-                                    </li>
-                                </ul>
-                            </div>
+                            @endforeach
                         </div>
                     </aside>
                 </div>
