@@ -49,6 +49,12 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
+        $categorySectionFour = News::where('category_id', $HomeSectionSetting->category_section_four)
+            ->activeEntries()->withLocalize()
+            ->orderBy('id', 'DESC')
+            ->take(4)
+            ->get();
+
 
 
         return view('frontend.home', compact(
@@ -58,7 +64,8 @@ class HomeController extends Controller
             'popularNews',
             'categorySectionOne',
             'categorySectionTwo',
-            'categorySectionThree'
+            'categorySectionThree',
+            'categorySectionFour'
         ));
     }
 
