@@ -22,7 +22,8 @@ class SocialCountController extends Controller
      */
     public function create()
     {
-        //
+        $languages = Language::all();
+        return view('admin.social-count.create', compact('languages'));
     }
 
     /**
