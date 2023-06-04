@@ -27,10 +27,10 @@
             <div class="col-md-8">
 
                 <div class="blog_page_search">
-                    <form action="#">
+                    <form action="{{ route('news') }}" method="GET">
                         <div class="row">
                             <div class="col-lg-5">
-                                <input type="text" placeholder="Type here">
+                                <input type="text" placeholder="Type here" value="{{ request()->search }}" name="search">
                             </div>
                             <div class="col-lg-4">
                                 <select>
@@ -54,307 +54,50 @@
                     <h4 class="border_section">Category title</h4>
 
                     <div class="row">
+                        @foreach ($news as $post)
                         <div class="col-lg-6">
                             <!-- Post Article -->
                             <div class="article__entry">
                                 <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage1.png" alt="" class="img-fluid">
+                                    <a href="{{ route('news-details', $post->slug) }}">
+                                        <img src="{{ asset($post->image) }}" alt="" class="img-fluid">
                                     </a>
                                 </div>
                                 <div class="article__content">
                                     <div class="article__category">
-                                        travel
+                                        {{ $post->category->name }}
                                     </div>
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
                                             <span class="text-primary">
-                                                by david hall
+                                                {{ __('by') }} {{ $post->auther->name }}
                                             </span>
                                         </li>
                                         <li class="list-inline-item">
                                             <span class="text-dark text-capitalize">
-                                                descember 09, 2016
+                                                {{ date('M d, Y', strtotime($post->created_at)) }}
                                             </span>
                                         </li>
 
                                     </ul>
                                     <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
+                                        <a href="{{ route('news-details', $post->slug) }}">
+                                            {!! truncate($post->title) !!}
                                         </a>
                                     </h5>
                                     <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
+                                        {!! truncate($post->content, 100) !!}
                                     </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage2.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage3.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage4.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
+                                    <a href="{{ route('news-details', $post->slug) }}" class="btn btn-outline-primary mb-4 text-capitalize"> {{ __('read more') }}</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/news5.jpg" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
+                        @endforeach
+                        @if (count($news) === 0)
+                            <div class="text-center w-100" >
+                                <h4 >{{ __('No News Found') }} :(</h4>
                             </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/news5.jpg" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage7.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-                            <!-- Post Article -->
-                            <div class="article__entry">
-                                <div class="article__image">
-                                    <a href="#">
-                                        <img src="images/newsimage8.png" alt="" class="img-fluid">
-                                    </a>
-                                </div>
-                                <div class="article__content">
-                                    <div class="article__category">
-                                        travel
-                                    </div>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <span class="text-primary">
-                                                by david hall
-                                            </span>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <span class="text-dark text-capitalize">
-                                                descember 09, 2016
-                                            </span>
-                                        </li>
-
-                                    </ul>
-                                    <h5>
-                                        <a href="#">
-                                            Proin eu nisl et arcu iaculis placerat sollicitudin ut est
-                                        </a>
-                                    </h5>
-                                    <p>
-                                        Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu
-                                        iaculis placerat sollicitudin ut
-                                        est. In fringilla dui dui.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-primary mb-4 text-capitalize"> read more</a>
-                                </div>
-                            </div>
-
-                        </div>
+                        @endif
                     </div>
 
                 </aside>
