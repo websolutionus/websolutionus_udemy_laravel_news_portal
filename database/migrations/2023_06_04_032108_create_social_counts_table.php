@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('social_counts', function (Blueprint $table) {
             $table->id();
+            $table->string('language');
+            $table->string('icon');
+            $table->string('fan_count');
+            $table->string('fan_type');
+            $table->string('button_text');
+            $table->string('color');
+            $table->text('url');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

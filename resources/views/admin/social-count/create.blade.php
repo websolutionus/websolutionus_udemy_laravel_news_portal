@@ -12,7 +12,7 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.category.store') }}" method="POST">
+                <form action="{{ route('admin.social-count.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="">{{ __('Language') }}</label>
@@ -38,6 +38,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="">{{ __('Url') }}</label>
+                        <input name="url" type="text" class="form-control" id="name">
+                        @error('url')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="">{{ __('Fan Count') }}</label>
                         <input name="fan_count" type="text" class="form-control" id="name">
                         @error('fan_count')
@@ -56,22 +64,24 @@
 
                     <div class="form-group">
                         <label for="">{{ __('Button Text') }}</label>
-                        <input name="button_text" type="text" class="form-control" id="name"
-                            placeholder="ex: liks, fans, followers">
+                        <input name="button_text" type="text" class="form-control" id="name">
                         @error('button_text')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label>Pick Your Color</label>
+                        <label>{{ __('Pick Your Color') }}</label>
                         <div class="input-group colorpickerinput">
-                            <input type="text" class="form-control">
+                            <input name="color" type="text" class="form-control">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <i class="fas fa-fill-drip"></i>
                                 </div>
                             </div>
+                            @error('color')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
