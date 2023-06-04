@@ -95,6 +95,9 @@ class SocialCountController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $socialCount = SocialCount::findOrFail($id);
+        $socialCount->delete();
+
+        return response(['status' => 'success', 'message' => __('Deleted Successfully!')]);
     }
 }
