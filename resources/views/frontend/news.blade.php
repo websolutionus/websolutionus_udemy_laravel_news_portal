@@ -101,7 +101,11 @@
                     </div>
 
                 </aside>
-
+                <div class="text-center" style="display: flex;
+                justify-content: center;">
+                    <!-- Pagination -->
+                    {{ $news->appends(request()->query())->links() }}
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="sidebar-sticky">
@@ -380,34 +384,8 @@
 
             <div class="clearfix"></div>
         </div>
-        <!-- Pagination -->
-        <div class="pagination-area">
-            <div class="pagination wow fadeIn animated" data-wow-duration="2s" data-wow-delay="0.5s"
-                style="visibility: visible; animation-duration: 2s; animation-delay: 0.5s; animation-name: fadeIn;">
-                <a href="#">
-                    «
-                </a>
-                <a href="#">
-                    1
-                </a>
-                <a class="active" href="#">
-                    2
-                </a>
-                <a href="#">
-                    3
-                </a>
-                <a href="#">
-                    4
-                </a>
-                <a href="#">
-                    5
-                </a>
 
-                <a href="#">
-                    »
-                </a>
-            </div>
-        </div>
+
     </div>
     <div class="large_add_banner mb-4">
         <div class="container">

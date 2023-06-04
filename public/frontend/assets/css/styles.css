@@ -17961,7 +17961,52 @@ body.offcanvas-active {
     max-height: 250px;
 }
 
+.pagination {
+  display: flex;
+}
 
+.pagination .disabled > span {
+    color: black;
+    float: left;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: 1px solid #eee;
+      border-top-color: rgb(238, 238, 238);
+      border-right-color: rgb(238, 238, 238);
+      border-bottom-color: rgb(238, 238, 238);
+      border-left-color: rgb(238, 238, 238);
+    margin: 0 4px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    line-height: 34px;
+    text-align: center;
+  }
+
+  .pagination .page-item > span {
+    color: black;
+    float: left;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: 1px solid #eee;
+      border-top-color: rgb(238, 238, 238);
+      border-right-color: rgb(238, 238, 238);
+      border-bottom-color: rgb(238, 238, 238);
+      border-left-color: rgb(238, 238, 238);
+    margin: 0 4px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    line-height: 34px;
+    text-align: center;
+  }
+
+  .pagination .page-item > a {
+    text-align: center;
+
+  }
 
 
 
