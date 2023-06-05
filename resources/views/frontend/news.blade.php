@@ -230,14 +230,16 @@
                         </div>
                     </aside>
 
+                    @if ($ad->side_bar_ad_status == 1)
                     <aside class="wrapper__list__article">
                         <h4 class="border_section">{{ __('Advertise') }}</h4>
                         <a href="#">
                             <figure>
-                                <img src="images/newsimage1.png" alt="" class="img-fluid">
+                                <img src="{{ asset($ad->side_bar_ad) }}" alt="" class="img-fluid">
                             </figure>
                         </a>
                     </aside>
+                    @endif
                 </div>
             </div>
 
@@ -246,16 +248,18 @@
 
 
     </div>
-    <div class="large_add_banner mb-4">
+    @if ($ad->news_page_ad_status == 1)
+    <div class="large_add_banner my-4">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="large_add_banner_img">
-                        <img src="images/placeholder_large.jpg" alt="adds">
+                        <img src="{{ asset($ad->news_page_ad) }}" alt="adds">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 </section>
 @endsection
