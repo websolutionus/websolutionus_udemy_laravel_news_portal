@@ -202,11 +202,9 @@
                         <h4 class="border_section">{{ __('tags') }}</h4>
                         <div class="blog-tags p-0">
                             <ul class="list-inline">
-
                                 @foreach ($mostCommonTags as $tag)
-
                                 <li class="list-inline-item">
-                                    <a href="#">
+                                    <a href="{{ route('news', ['tag' => $tag->name]) }}">
                                         #{{ $tag->name }} ({{ $tag->count }})
                                     </a>
                                 </li>

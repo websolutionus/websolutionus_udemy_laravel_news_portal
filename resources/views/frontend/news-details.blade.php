@@ -309,7 +309,7 @@
                         <form action="{{ route('news-comment') }}" method="POST" class="comment-form">
                             @csrf
                             <p class="comment-notes">
-            
+
                             </p>
                             <p class="comment-form-comment">
                                 <label for="comment">{{ __('Comment') }}</label>
@@ -584,7 +584,7 @@
                                 @foreach ($mostCommonTags as $tag)
 
                                 <li class="list-inline-item">
-                                    <a href="#">
+                                    <a href="{{ route('news', ['tag' => $tag->name]) }}">
                                         #{{ $tag->name }} ({{ $tag->count }})
                                     </a>
                                 </li>

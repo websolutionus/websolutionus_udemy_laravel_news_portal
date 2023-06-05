@@ -121,6 +121,12 @@ class HomeController extends Controller
 
         $news = News::query();
 
+        $news->when($request->has('tag'), function($query) use ($request){
+            $query->whereHas('tags', function($query) use ($request){
+                $query->where('name', $request->tag);
+            });
+        });
+
         $news->when($request->has('category') && !empty($request->category), function($query) use ($request) {
             $query->whereHas('category', function($query) use ($request) {
                 $query->where('slug', $request->category);
@@ -135,6 +141,8 @@ class HomeController extends Controller
                 $query->where('name', 'like','%'.$request->search.'%');
             });
         });
+
+
 
 
 
