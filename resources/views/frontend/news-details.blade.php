@@ -532,45 +532,21 @@
                         <h4 class="border_section">{{ __('stay conected') }}</h4>
                         <!-- widget Social media -->
                         <div class="wrap__social__media">
-                            <a href="#" target="_blank">
-                                <div class="social__media__widget facebook">
+                            @foreach ($socialCounts as $socialCount)
+                            <a href="{{ $socialCount->url }}" target="_blank">
+                                <div class="social__media__widget mt-2" style="background-color:{{ $socialCount->color }}">
                                     <span class="social__media__widget-icon">
-                                        <i class="fa fa-facebook"></i>
+                                        <i class="{{ $socialCount->icon }}"></i>
                                     </span>
                                     <span class="social__media__widget-counter">
-                                        19,243 fans
+                                        {{ $socialCount->fan_count }} {{ $socialCount->fan_type }}
                                     </span>
                                     <span class="social__media__widget-name">
-                                        like
+                                        {{ $socialCount->button_text }}
                                     </span>
                                 </div>
                             </a>
-                            <a href="#" target="_blank">
-                                <div class="social__media__widget twitter">
-                                    <span class="social__media__widget-icon">
-                                        <i class="fa fa-twitter"></i>
-                                    </span>
-                                    <span class="social__media__widget-counter">
-                                        2.076 followers
-                                    </span>
-                                    <span class="social__media__widget-name">
-                                        follow
-                                    </span>
-                                </div>
-                            </a>
-                            <a href="#" target="_blank">
-                                <div class="social__media__widget youtube">
-                                    <span class="social__media__widget-icon">
-                                        <i class="fa fa-youtube"></i>
-                                    </span>
-                                    <span class="social__media__widget-counter">
-                                        15,200 followers
-                                    </span>
-                                    <span class="social__media__widget-name">
-                                        subscribe
-                                    </span>
-                                </div>
-                            </a>
+                            @endforeach
 
                         </div>
                     </aside>

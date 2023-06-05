@@ -8,15 +8,13 @@
                 <!-- Breadcrumb -->
                 <ul class="breadcrumbs bg-light mb-4">
                     <li class="breadcrumbs__item">
-                        <a href="index.html" class="breadcrumbs__url">
-                            <i class="fa fa-home"></i> Home</a>
+                        <a href="{{ url('/') }}" class="breadcrumbs__url">
+                            <i class="fa fa-home"></i> {{ __('Home') }}</a>
                     </li>
                     <li class="breadcrumbs__item">
-                        <a href="index.html" class="breadcrumbs__url">News</a>
+                        <a href="javascirt:;" class="breadcrumbs__url">News</a>
                     </li>
-                    <li class="breadcrumbs__item breadcrumbs__item--current">
-                        World
-                    </li>
+
                 </ul>
             </div>
 
@@ -42,7 +40,7 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <button type="submit">search</button>
+                                <button type="submit">{{ __('search') }}</button>
                             </div>
                         </div>
                     </form>
@@ -216,24 +214,24 @@
                     </aside>
 
                     <aside class="wrapper__list__article">
-                        <h4 class="border_section">newsletter</h4>
+                        <h4 class="border_section">{{ __('newsletter') }}</h4>
                         <!-- Form Subscribe -->
                         <div class="widget__form-subscribe bg__card-shadow">
                             <h6>
-                                The most important world news and events of the day.
+                                {{ __('The most important world news and events of the day') }}.
                             </h6>
-                            <p><small>Get magzrenvi daily newsletter on your inbox.</small></p>
+                            <p><small>{{ __('Get magzrenvi daily newsletter on your inbox') }}.</small></p>
                             <div class="input-group ">
                                 <input type="text" class="form-control" placeholder="Your email address">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">sign up</button>
+                                    <button class="btn btn-primary" type="button">{{ __('sign up') }}</button>
                                 </div>
                             </div>
                         </div>
                     </aside>
 
                     <aside class="wrapper__list__article">
-                        <h4 class="border_section">Advertise</h4>
+                        <h4 class="border_section">{{ __('Advertise') }}</h4>
                         <a href="#">
                             <figure>
                                 <img src="images/newsimage1.png" alt="" class="img-fluid">

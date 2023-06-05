@@ -113,7 +113,9 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-       return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts'));
+        $socialCounts = SocialCount::where(['status' => 1, 'language' => getLangauge()])->get();
+
+       return view('frontend.news-details', compact('news', 'recentNews', 'mostCommonTags', 'nextPost', 'previousPost', 'relatedPosts', 'socialCounts'));
     }
 
     public function news(Request $request)
