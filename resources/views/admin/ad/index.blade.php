@@ -12,17 +12,21 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.category.store') }}" method="POST">
+                <form action="{{ route('admin.ad.update', 1) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <h5 class="text-primary">Home Page Ads</h5>
+                    @method('PUT')
+                    <h5 class="text-primary">{{ __('Home Page Ads') }}</h5>
                     <div class="form-group">
+                        <img src="{{ asset($ad->home_top_bar_ad) }}" width="200px" alt="">
+                        <br>
                         <label for="">{{ __('Top bar ad') }}</label>
                         <input name="home_top_bar_ad" type="file" class="form-control" >
-                        @error('name')
+                        @error('home_top_bar_ad')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label class="custom-switch mt-2">
                             <input
+                                {{ $ad->home_top_bar_ad_status == 1 ? 'checked' : '' }}
                                 name="home_top_bar_ad_status"
                                 value="1" type="checkbox" class="custom-switch-input toggle-status">
                             <span class="custom-switch-indicator"></span>
@@ -30,61 +34,73 @@
                     </div>
 
                     <div class="form-group">
+                        <img src="{{ asset($ad->home_middle_ad) }}" width="200px" alt="">
+                        <br>
                         <label for="">{{ __('Middle Ad') }}</label>
                         <input name="home_middle_ad" type="file" class="form-control" >
-                        @error('name')
+                        @error('home_middle_ad')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label class="custom-switch mt-2">
                             <input
+                                {{ $ad->home_middle_ad_status == 1 ? 'checked' : '' }}
                                 name="home_middle_ad_status"
                                 value="1" type="checkbox" class="custom-switch-input toggle-status">
                             <span class="custom-switch-indicator"></span>
                         </label>
                     </div>
 
-                    <h5 class="text-primary">News View Page Ads</h5>
+                    <h5 class="text-primary">{{ __('News View Page Ads') }}</h5>
 
                     <div class="form-group">
+                        <img src="{{ asset($ad->view_page_ad) }}" width="200px" alt="">
+                        <br>
                         <label for="">{{ __('Bottom Ad') }}</label>
                         <input name="view_page_ad" type="file" class="form-control" >
-                        @error('name')
+                        @error('view_page_ad')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label class="custom-switch mt-2">
                             <input
+                                {{ $ad->view_page_ad_status == 1 ? 'checked' : '' }}
                                 name="view_page_ad_status"
                                 value="1" type="checkbox" class="custom-switch-input toggle-status">
                             <span class="custom-switch-indicator"></span>
                         </label>
                     </div>
 
-                    <h5 class="text-primary">News Page Ads</h5>
+                    <h5 class="text-primary">{{ __('News Page Ads') }}</h5>
 
                     <div class="form-group">
+                        <img src="{{ asset($ad->news_page_ad) }}" width="200px" alt="">
+                        <br>
                         <label for="">{{ __('Bottom Ad') }}</label>
                         <input name="news_page_ad" type="file" class="form-control" >
-                        @error('name')
+                        @error('news_page_ad')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label class="custom-switch mt-2">
                             <input
+                            {{ $ad->news_page_ad_status == 1 ? 'checked' : '' }}
                                 name="news_page_ad_status"
                                 value="1" type="checkbox" class="custom-switch-input toggle-status">
                             <span class="custom-switch-indicator"></span>
                         </label>
                     </div>
 
-                    <h5 class="text-primary">Sidebar Ad</h5>
+                    <h5 class="text-primary">{{ __('Sidebar Ad') }}</h5>
 
                     <div class="form-group">
+                        <img src="{{ asset($ad->side_bar_ad) }}" width="200px" alt="">
+                        <br>
                         <label for="">{{ __('Sidebar Ad') }}</label>
                         <input name="side_bar_ad" type="file" class="form-control" >
-                        @error('name')
+                        @error('side_bar_ad')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <label class="custom-switch mt-2">
                             <input
+                                {{ $ad->side_bar_ad_status == 1 ? 'checked' : '' }}
                                 name="side_bar_ad_status"
                                 value="1" type="checkbox" class="custom-switch-input toggle-status">
                             <span class="custom-switch-indicator"></span>
@@ -92,7 +108,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                 </form>
             </div>
         </div>
