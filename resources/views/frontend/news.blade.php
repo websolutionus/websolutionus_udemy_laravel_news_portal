@@ -36,7 +36,7 @@
                                 <select name="category">
                                     <option value="">{{ __('All') }}</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                                    <option {{ $category->slug === request()->category ? 'selected' : '' }} value="{{ $category->slug }}">{{ $category->name }}</option>
                                     @endforeach
 
                                 </select>
@@ -49,7 +49,10 @@
                 </div>
 
                 <aside class="wrapper__list__article ">
-                    <h4 class="border_section">Category title</h4>
+                    @if (request()->has('category'))
+
+                    <h4 class="border_section">{{ __('Category') }}: {{ request()->category }}</h4>
+                    @endif
 
                     <div class="row">
                         @foreach ($news as $post)

@@ -121,6 +121,12 @@ class HomeController extends Controller
 
         $news = News::query();
 
+        $news->when($request->has('category') && !empty($request->category), function($query) use ($request) {
+            $query->whereHas('category', function($query) use ($request) {
+                $query->where('slug', $request->category);
+            });
+        });
+
         $news->when($request->has('search'), function($query) use ($request) {
             $query->where(function($query) use ($request){
                 $query->where('title', 'like','%'.$request->search.'%')
@@ -130,11 +136,7 @@ class HomeController extends Controller
             });
         });
 
-        $news->when($request->has('category'), function($query) use ($request) {
-            $query->whereHas('category', function($query) use ($request) {
-                $query->where('slug', $request->category);
-            });
-        });
+
 
         $news = $news->activeEntries()->withLocalize()->paginate(20);
 
