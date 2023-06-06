@@ -27,6 +27,11 @@ class AdminAdUpdateRequest extends FormRequest
             'view_page_ad' => ['nullable', 'image', 'max:3000'],
             'news_page_ad' => ['nullable', 'image', 'max:3000'],
             'side_bar_ad' => ['nullable', 'image', 'max:3000'],
+            'home_top_bar_ad_url' => ['nullable', 'url'],
+            'home_middle_ad_url' => ['nullable', 'url'],
+            'view_page_ad_url' => ['nullable', 'url'],
+            'news_page_ad_url' => ['nullable', 'url'],
+            'side_bar_ad_url' => ['nullable', 'url'],
 
         ];
     }

@@ -74,6 +74,12 @@ class AdController extends Controller
                 'view_page_ad_status' => $request->view_page_ad_status == 1 ? 1 : 0,
                 'news_page_ad_status' => $request->news_page_ad_status == 1 ? 1 : 0,
                 'side_bar_ad_status' => $request->side_bar_ad_status == 1 ? 1 : 0,
+                'home_top_bar_ad_url' => $request->home_top_bar_ad_url,
+                'home_middle_ad_url' => $request->home_middle_ad_url,
+                'view_page_ad_url' => $request->view_page_ad_url,
+                'news_page_ad_url' => $request->news_page_ad_url,
+                'side_bar_ad_url' => $request->side_bar_ad_url,
+
             ]
         );
 
