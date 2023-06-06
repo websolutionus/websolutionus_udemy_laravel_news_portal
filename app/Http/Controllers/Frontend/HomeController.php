@@ -238,4 +238,12 @@ class HomeController extends Controller
 
         return response(['status' => 'error', 'message' => __('Someting went wrong!')]);
     }
+
+    public function SubscribeNewsLetter(Request $request)
+    {
+       $request->validate([
+        'email' => ['required', 'email', 'max:255']
+       ]);
+       
+    }
 }
