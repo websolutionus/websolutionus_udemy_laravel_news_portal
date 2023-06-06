@@ -245,8 +245,6 @@
 
             <div class="clearfix"></div>
         </div>
-
-
     </div>
     @if ($ad->news_page_ad_status == 1)
     <div class="large_add_banner my-4">

@@ -23,6 +23,12 @@ return new class extends Migration
             $table->boolean('news_page_ad_status');
             $table->text('side_bar_ad');
             $table->boolean('side_bar_ad_status');
+            $table->text('home_top_bar_ad_url')->nullable();
+            $table->text('home_middle_ad_url')->nullable();
+            $table->text('view_page_ad_url')->nullable();
+            $table->text('news_page_ad_url')->nullable();
+            $table->text('side_bar_ad_url')->nullable();
+
             $table->timestamps();
         });
     }
