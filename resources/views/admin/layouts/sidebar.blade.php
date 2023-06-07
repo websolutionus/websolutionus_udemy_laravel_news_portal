@@ -50,6 +50,7 @@
                     <li><a class="nav-link" href="{{ route('admin.social-link.index') }}">Social Links</a></li>
                     <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}">Footer Info</a></li>
                     <li><a class="nav-link" href="{{ route('admin.footer-grid-one.index') }}">Footer Grid One</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.footer-grid-two.index') }}">Footer Grid Two</a></li>
 
                 </ul>
             </li>
