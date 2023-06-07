@@ -11,15 +11,12 @@
                     <div class="topbar-left topbar-right d-flex">
 
                         <ul class="topbar-sosmed p-0">
+                            @foreach ($socialLinks as $link)
                             <li>
-                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="{{ $link->url }}"><i class="{{ $link->icon }}"></i></a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </li>
+                            @endforeach
+
                         </ul>
                         <div class="topbar-text">
                             Friday, May 19, 2023
