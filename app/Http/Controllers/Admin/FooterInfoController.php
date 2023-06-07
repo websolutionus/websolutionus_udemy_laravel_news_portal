@@ -34,7 +34,7 @@ class FooterInfoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'logo' => ['required', 'image', 'max:3000'],
+            'logo' => ['nullable', 'image', 'max:3000'],
             'description' => ['required', 'max:300'],
             'copyright' => ['required', 'max:255']
         ]);
