@@ -39,24 +39,13 @@
                                 </div>
 
                                 <ul class="list-unstyled option-content is-hidden">
+
+                                    @foreach ($footerGridOne as $gridOne)
                                     <li>
-                                        <a href="#">celebity news</a>
+                                        <a href="{{ $gridOne->url }}">{{ $gridOne->name }}</a>
                                     </li>
-                                    <li>
-                                        <a href="#">movies</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">tv news</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">music news</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">life style</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">entertainment video</a>
-                                    </li>
+                                    @endforeach
+
                                 </ul>
                             </div>
                         </div>
