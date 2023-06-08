@@ -26,7 +26,7 @@
                 <div class="tab-content tab-bordered" id="myTab3Content">
                     @foreach ($languages as $language)
                         @php
-                            $about = \App\Models\About::where('language', $language->lang)->first();
+                            $contact = \App\Models\Contact::where('language', $language->lang)->first();
                         @endphp
                         <div class="tab-pane fade show {{ $loop->index === 0 ? 'active' : '' }}"
                             id="home-{{ $language->lang }}" role="tabpanel" aria-labelledby="home-tab2">
@@ -37,7 +37,7 @@
 
                                     <div class="form-group">
                                         <label for="">{{ __('Address') }}</label>
-                                       <input type="text" class="form-control" name="address">
+                                       <input type="text" class="form-control" name="address" value="{{ @$contact->address }}">
                                        <input type="hidden" class="form-control" name="language" value="{{ $language->lang }}">
 
 
@@ -45,13 +45,13 @@
 
                                     <div class="form-group">
                                         <label for="">{{ __('Phone') }}</label>
-                                       <input type="text" class="form-control" name="phone">
+                                       <input type="text" class="form-control" name="phone" value="{{ @$contact->phone }}">
 
                                     </div>
 
                                     <div class="form-group">
                                         <label for="">{{ __('Email') }}</label>
-                                       <input type="text" class="form-control" name="email">
+                                       <input type="text" class="form-control" name="email" value="{{ @$contact->email }}">
 
                                     </div>
 

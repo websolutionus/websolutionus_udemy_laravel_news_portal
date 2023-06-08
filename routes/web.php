@@ -50,5 +50,7 @@ Route::post('subscribe-newsletter', [HomeController::class, 'SubscribeNewsLetter
 /** About Page Route */
 Route::get('about', [HomeController::class, 'about'])->name('about');
 
+/** About Page Route */
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
 
 

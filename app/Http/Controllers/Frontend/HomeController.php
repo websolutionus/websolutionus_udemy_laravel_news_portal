@@ -7,6 +7,7 @@ use App\Models\About;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Contact;
 use App\Models\HomeSectionSetting;
 use App\Models\News;
 use App\Models\SocialCount;
@@ -261,5 +262,11 @@ class HomeController extends Controller
     {
         $about = About::where('language', getLangauge())->first();
         return view('frontend.about', compact('about'));
+    }
+
+    public function contact()
+    {
+        $contact = Contact::where('language', getLangauge())->first();
+        return view('frontend.contact', compact('contact'));
     }
 }
