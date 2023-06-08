@@ -32,47 +32,44 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h5>contact us</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group form-group-name">
-                                <label>Your name <span class="required"></span></label>
-                                <input type="text" class="form-control" name="name" required="">
+                    <h5>{{ __('contact us') }}</h5>
+                    <form action="{{ route('contact.submit') }}" method="POST">
+                        @csrf
+                        <div class="row">
 
+                            <div class="col-md-6">
+                                <div class="form-group form-group-name">
+                                    <label>{{ __('Your email') }} <span class="required"></span></label>
+                                    <input type="email" class="form-control" name="email" required="">
+                                    @error('email')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group form-group-name">
+                                    <label>{{ __('Subject') }} <span class="required"></span></label>
+                                    <input type="text" class="form-control" name="subject" required="">
+                                    @error('subject')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{ __('Your message') }} </label>
+                                    <textarea class="form-control" rows="8" name="message"></textarea>
+                                    @error('message')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                                </div>
+                                <div class="form-group mb-4">
+                                    <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-group-name">
-                                <label>Your email <span class="required"></span></label>
-                                <input type="email" class="form-control" name="email" required="">
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group form-group-name">
-                                <label>website <span class="required"></span></label>
-                                <input type="text" class="form-control" name="website" required="">
-
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-group-name">
-                                <label>Subject <span class="required"></span></label>
-                                <input type="text" class="form-control" name="subject" required="">
-
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Your message </label>
-                                <textarea class="form-control" rows="8" name="message"></textarea>
-                            </div>
-                            <div class="form-group mb-4">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
 
                 <div class="col-md-4">
