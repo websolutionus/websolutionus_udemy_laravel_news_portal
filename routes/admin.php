@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::resource('footer-info', FooterInfoController::class);
 
     /** Footer Grid One Route */
+    Route::post('footer-grid-one-title', [FooterGridOneController::class, 'handleTitle'])->name('footer-grid-one-title');
     Route::resource('footer-grid-one', FooterGridOneController::class);
 
     /** Footer Grid Two Route */
