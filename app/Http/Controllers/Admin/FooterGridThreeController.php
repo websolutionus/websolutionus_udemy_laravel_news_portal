@@ -7,6 +7,7 @@ use App\Http\Requests\FooterGridOneSaveRequest;
 use App\Models\FooterGridOne;
 use App\Models\FooterGridThree;
 use App\Models\FooterGridTwo;
+use App\Models\FooterTitle;
 use App\Models\Language;
 use Illuminate\Http\Request;
 
@@ -83,5 +84,28 @@ class FooterGridThreeController extends Controller
         FooterGridThree::findOrFail($id)->delete();
 
         return response(['status' => 'success', 'message' => __('Deleted Successfully')]);
+    }
+
+    public function handleTitle(Request $request)
+    {
+        $request->validate([
+            'title' => ['required', 'max:255']
+        ]);
+
+        FooterTitle::updateOrCreate(
+            [
+                'key' => 'grid_three_title',
+                'language' => $request->language
+            ],
+            [
+                'value' => $request->title
+            ]
+
+        );
+
+        toast(__('Updated Successfully'), 'success');
+
+        return redirect()->back();
+
     }
 }
