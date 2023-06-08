@@ -80,22 +80,11 @@
                                 </div>
 
                                 <ul class="list-unstyled option-content is-hidden">
+                                    @foreach ($footerGridThree as $gridThree)
                                     <li>
-                                        <a href="#">merkets</a>
+                                        <a href="{{ $gridThree->url }}">{{ $gridThree->name }}</a>
                                     </li>
-                                    <li>
-                                        <a href="#">technology</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">features</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">property</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">business leaders</a>
-                                    </li>
-
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>

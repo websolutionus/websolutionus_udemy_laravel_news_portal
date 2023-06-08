@@ -27,6 +27,7 @@
         $footerInfo = \App\Models\FooterInfo::where('language', getLangauge())->first();
         $footerGridOne = \App\Models\FooterGridOne::where(['status' => 1, 'language' => getLangauge()])->get();
         $footerGridTwo = \App\Models\FooterGridTwo::where(['status' => 1, 'language' => getLangauge()])->get();
+        $footerGridThree = \App\Models\FooterGridThree::where(['status' => 1, 'language' => getLangauge()])->get();
     @endphp
 
     <!-- Header news -->
