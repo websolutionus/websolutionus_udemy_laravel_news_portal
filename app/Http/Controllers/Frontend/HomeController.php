@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Comment;
@@ -254,5 +255,11 @@ class HomeController extends Controller
 
        return response(['status' => 'success', 'message' => __('Subscribed successfully!')]);
 
+    }
+
+    public function about()
+    {
+        $about = About::where('language', getLangauge())->first();
+        return view('frontend.about', compact('about'));
     }
 }
