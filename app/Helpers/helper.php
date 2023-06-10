@@ -64,4 +64,5 @@ function setSidebarActive(array $routes): ?string
             return 'active';
         }
     }
+    return '';
 }
