@@ -13,6 +13,8 @@ class ContactMessageController extends Controller
 {
     public function index()
     {
+        RecivedMail::query()->update(['seen' => 1]);
+
         $messages = RecivedMail::all();
         return view('admin.contact-message.index', compact('messages'));
     }
@@ -31,6 +33,11 @@ class ContactMessageController extends Controller
 
             /** Send mail */
             Mail::to($request->email)->send( new ContactMail($request->subject, $request->message, $contact->email));
+
+            $makeReplied = RecivedMail::find($request->message_id);
+            $makeReplied->replied = 1;
+            $makeReplied->save();
+
             toast(__('Mail Sent Successfully!'), 'success');
 
             return redirect()->back();

@@ -3,17 +3,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Social Links') }}</h1>
+            <h1>{{ __('Contact Message') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('All link') }}</h4>
-                <div class="card-header-action">
-                    <a href="{{ route('admin.social-link.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> {{ __('Create new') }}
-                    </a>
-                </div>
+                <h4>{{ __('All Messages') }}</h4>
+
             </div>
 
             <div class="card-body">
@@ -28,6 +24,8 @@
 
                                 <th>{{ __('Subject') }}</th>
                                 <th>{{ __('Message') }}</th>
+                                <th>{{ __('Replied') }}</th>
+
 
                                 <th>{{ __('Action') }}</th>
 
@@ -41,7 +39,14 @@
                                     <td>{{ $message->email }}</td>
                                     <td>{{ $message->subject }}</td>
                                     <td>{{ $message->message }}</td>
+                                    <td>
+                                        @if ($message->replied == 1)
+                                        <i style="font-size:20px" class="fas fa-check text-success"></i>
+                                        @else
+                                        <i style="font-size:20px" class="fas fa-clock text-warning"></i>
+                                        @endif
 
+                                    </td>
 
                                     {{-- <td>
                                     @if ($link->status === 1)
@@ -92,6 +97,8 @@
                                 <input type="text" name="subject" id="" class="form-control">
                                 <input type="hidden" name="email" value="{{ $message->email }}" id=""
                                     class="form-control">
+                                <input type="hidden" name="message_id" value="{{ $message->id }}" id=""
+                                class="form-control">
                                 @error('subject')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -123,7 +130,8 @@
             "columnDefs": [{
                 "sortable": false,
                 "targets": [1]
-            }]
+            }],
+            "order": [[0, "desc"]]
         });
     </script>
 @endpush

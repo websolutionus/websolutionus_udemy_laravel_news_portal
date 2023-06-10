@@ -42,7 +42,12 @@
             <span>Social Count</span></a></li>
 
             <li><a class="nav-link" href="{{ route('admin.contact-message.index') }}"><i class="far fa-square"></i>
-            <span>Contact Messages</span></a></li>
+            <span>Contact Messages </span>
+            @if ($unReadMessages > 0)
+            <i class="badge bg-danger" style="color:
+            #fff">{{ $unReadMessages }}</i>
+            @endif
+        </a></li>
 
             <li><a class="nav-link" href="{{ route('admin.home-section-setting.index') }}"><i class="far fa-square"></i>
                 <span>Home Section Setting</span></a></li>
