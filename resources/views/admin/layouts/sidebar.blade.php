@@ -29,7 +29,7 @@
                 <ul class="dropdown-menu">
                     <li class="{{ setSidebarActive(['admin.news.*']) }}"><a class="nav-link" href="{{ route('admin.news.index') }}">{{ __('All News') }}</a></li>
                     <li><a class="nav-link" href="forms-editor.html">{{ __('Editor') }}</a></li>
-                    <li><a class="nav-link" href="forms-validation.html">{{ __('Validation') }}</a></li>
+
                 </ul>
             </li>
 
@@ -89,7 +89,8 @@
                 </ul>
             </li>
 
-
+            <li  class="{{ setSidebarActive(['admin.setting.*']) }}" ><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i>
+                <span>{{ __('Settings') }}</span></a></li>
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li> --}}
 
