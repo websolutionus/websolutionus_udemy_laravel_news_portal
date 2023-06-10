@@ -97,6 +97,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     /** Contact Message Route */
     Route::get('contact-message', [ContactMessageController::class, 'index'])->name('contact-message.index');
+    Route::post('contact-send-replay', [ContactMessageController::class, 'sendReplay'])->name('contact.send-replay');
 
 
 
