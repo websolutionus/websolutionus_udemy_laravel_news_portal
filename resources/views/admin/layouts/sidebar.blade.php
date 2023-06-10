@@ -20,10 +20,10 @@
             <li><a class="nav-link" href="{{ route('admin.category.index') }}"><i class="far fa-square"></i>
                     <span>Category</span></a></li>
 
-            <li class="dropdown">
+            <li class="dropdown active">
                 <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>News</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('admin.news.index') }}">All News</a></li>
+                    <li class="active"><a class="nav-link" href="{{ route('admin.news.index') }}">All News</a></li>
                     <li><a class="nav-link" href="forms-editor.html">Editor</a></li>
                     <li><a class="nav-link" href="forms-validation.html">Validation</a></li>
                 </ul>

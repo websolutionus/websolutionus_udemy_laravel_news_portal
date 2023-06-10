@@ -49,8 +49,19 @@ function convertToKFormat(int $number): String
     if($number < 1000){
         return $number;
     }elseif($number < 1000000){
-        return round($number / 1000, 1) . 'K'; 
+        return round($number / 1000, 1) . 'K';
     }else {
         return round($number / 1000000, 1). 'M';
+    }
+}
+
+/** Make Sidebar Active */
+
+function setSidebarActive(array $routes): ?string
+{
+    foreach($routes as $route){
+        if(request()->routeIs($route)){
+            return 'active';
+        }
     }
 }
