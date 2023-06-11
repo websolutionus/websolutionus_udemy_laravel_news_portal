@@ -24,10 +24,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        $setting = Setting::all();
+        $setting = Setting::pluck('value', 'key')->toArray();
 
         View::composer('*', function($view) use ($setting){
-            $view->with('setting', $setting);
+            $view->with('settings', $setting);
         });
     }
 }
