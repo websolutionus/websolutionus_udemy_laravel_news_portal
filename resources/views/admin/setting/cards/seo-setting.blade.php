@@ -6,17 +6,17 @@
 
             <div class="form-group">
                 <label for="">{{ __('Site Seo Title') }}</label>
-                <input type="text" name="site_seo_title" class="form-control" value="">
+                <input type="text" name="site_seo_title" value="{{ $settings['site_seo_title'] }}" class="form-control" value="">
             </div>
             <div class="form-group">
 
                 <label for="">{{ __('Site Seo Description') }}</label>
-                <textarea name="site_seo_description" class="form-control" style="height: 300px" id="" cols="30" rows="10"></textarea>
+                <textarea name="site_seo_description" class="form-control" style="height: 300px" id="" cols="30" rows="10">{{ $settings['site_seo_description'] }}</textarea>
             </div>
             <div class="form-group">
 
                 <label for="">{{ __('Site Seo Keywords') }}</label>
-                <input name="site_seo_keywords" type="text" class="form-control inputtags">
+                <input name="site_seo_keywords" type="text" class="form-control inputtags" value="{{ $settings['site_seo_keywords'] }}">
             </div>
             <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
         </form>
