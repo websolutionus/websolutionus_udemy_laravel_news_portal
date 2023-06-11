@@ -35,9 +35,10 @@
                                 <form action="{{ route('admin.general-setting.update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
+                                    @dd($setting)
                                     <div class="form-group">
                                         <label for="">{{ __('Site Name') }}</label>
-                                        <input type="text" name="site_name" class="form-control">
+                                        <input type="text" name="site_name" class="form-control" value="">
                                     </div>
                                     <div class="form-group">
                                         <label for="">{{ __('Site Logo') }}</label>
