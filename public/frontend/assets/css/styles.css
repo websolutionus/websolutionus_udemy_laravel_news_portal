@@ -16576,7 +16576,7 @@ body.offcanvas-active {
 }
 
 .bg__footer-dark {
-    background-color: #055bc4;
+    background-color: var(--colorPrimary);
 }
 
 .border-top-5 {
