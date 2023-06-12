@@ -42,8 +42,9 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.social-count.edit', $role->id) }}"
+                                    <a href="{{ route('admin.role.edit', $role->id) }}"
                                         class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
                                     <a href="{{ route('admin.social-count.destroy', $role->id) }}"
                                         class="btn btn-danger delete-item"><i
                                             class="fas fa-trash-alt"></i></a>
