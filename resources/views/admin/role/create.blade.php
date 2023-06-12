@@ -12,12 +12,15 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.social-link.store') }}" method="POST">
+                <form action="{{ route('admin.role.store') }}" method="POST">
                     @csrf
 
                     <div class="form-group">
                         <label for="">{{__('Role Name')}}</label>
                         <input type="text" class="form-control" name="role">
+                        @error('role')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <hr>
@@ -31,7 +34,8 @@
                                     <input value="{{ $item->name }}" type="checkbox" name="permissions[]" class="custom-switch-input">
                                     <span class="custom-switch-indicator"></span>
                                     <span class="custom-switch-description">{{ $item->name }}</span>
-                                  </label>
+                                </label>
+
                             </div>
                             @endforeach
                         </div>
