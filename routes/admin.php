@@ -111,6 +111,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     /** Role and Permissions Routes */
     Route::get('role', [RolePermisionController::class, 'index'])->name('role.index');
+    Route::get('role/create', [RolePermisionController::class, 'create'])->name('role.create');
+
 
 
 });
