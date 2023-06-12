@@ -15,8 +15,8 @@ class RolePermisionController extends Controller
     }
 
     function create() {
+        $premissions = Permission::all()->groupBy('group_name');
 
-
-        return view('admin.role.create');
+        return view('admin.role.create', compact('premissions'));
     }
 }
