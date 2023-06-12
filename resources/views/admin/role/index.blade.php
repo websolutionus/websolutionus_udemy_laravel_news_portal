@@ -24,16 +24,32 @@
                                 <th class="text-center">
                                     #
                                 </th>
-                                <th>{{ __('Name') }}</th>
-                                <th>{{ __('Language Code') }}</th>
-                                <th>{{ __('In Nav') }}</th>
-                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Role Name') }}</th>
+                                <th>{{ __('Permissions') }}</th>
                                 <th>{{ __('Action') }}</th>
+
                             </tr>
                         </thead>
                         <tbody>
 
-
+                            @foreach ($roles as $role)
+                            <tr>
+                                <td>{{ $role->id }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>
+                                    @foreach ($role->permissions as $permission)
+                                        <span class="badge bg-primary text-light">{{ $permission->name }}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.social-count.edit', $role->id) }}"
+                                        class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('admin.social-count.destroy', $role->id) }}"
+                                        class="btn btn-danger delete-item"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
 
                         </tbody>
                     </table>
