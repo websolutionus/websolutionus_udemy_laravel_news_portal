@@ -24,23 +24,34 @@
                                 <th class="text-center">
                                     #
                                 </th>
-                                <th>{{ __('Role Name') }}</th>
-                                <th>{{ __('Permissions') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Email') }}</th>
+                                <th>{{ __('Role') }}</th>
                                 <th>{{ __('Action') }}</th>
 
                             </tr>
                         </thead>
                         <tbody>
 
+                            @foreach ($admins as $admin)
+                            <tr>
+                                <td>{{ $admin->id }}</td>
 
-                                {{-- <td>
-                                    <a href="{{ route('admin.role.edit', $role->id) }}"
+                                <td>{{ $admin->name }}</td>
+                                <td>{{ $admin->email }}</td>
+                                <td><span class="badge bg-primary text-light">{{ $admin->getRoleNames()->first() }}</span></td>
+
+                                <td>
+                                    <a href="{{ route('admin.role.edit', $admin->id) }}"
                                         class="btn btn-primary"><i class="fas fa-edit"></i></a>
 
-                                    <a href="{{ route('admin.role.destory', $role->id) }}"
+                                    <a href="{{ route('admin.role.destory', $admin->id) }}"
                                         class="btn btn-danger delete-item"><i
                                             class="fas fa-trash-alt"></i></a>
-                                </td> --}}
+                                </td>
+                            </tr>
+                            @endforeach
+
 
 
                         </tbody>
