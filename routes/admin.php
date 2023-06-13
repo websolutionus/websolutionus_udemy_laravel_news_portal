@@ -115,10 +115,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('role/create', [RolePermisionController::class, 'store'])->name('role.store');
     Route::get('role/{id}/edit', [RolePermisionController::class, 'edit'])->name('role.edit');
     Route::put('role/{id}/edit', [RolePermisionController::class, 'update'])->name('role.update');
-
-
-
-
+    Route::delete('role/{id}/destory', [RolePermisionController::class, 'destory'])->name('role.destory');
 
 
 
