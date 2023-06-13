@@ -42,7 +42,7 @@
                                 <td><span class="badge bg-primary text-light">{{ $admin->getRoleNames()->first() }}</span></td>
 
                                 <td>
-                                    <a href="{{ route('admin.role.edit', $admin->id) }}"
+                                    <a href="{{ route('admin.role-users.edit', $admin->id) }}"
                                         class="btn btn-primary"><i class="fas fa-edit"></i></a>
 
                                     <a href="{{ route('admin.role.destory', $admin->id) }}"

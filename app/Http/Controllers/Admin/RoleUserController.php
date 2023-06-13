@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRoleUserStoreRequest;
+use App\Http\Requests\AdminRoleUserUpdateRequest;
 use App\Mail\RoleUserCreateMail;
 use App\Models\Admin;
 use Illuminate\Contracts\View\View;
@@ -65,27 +66,44 @@ class RoleUserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $user = Admin::findOrFail($id);
+        $roles = Role::all();
+        return view('admin.role-user.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AdminRoleUserUpdateRequest $request, string $id)
     {
-        //
+
+        if($request->has('password') && !empty($request->password)){
+            $request->validate([
+                'password' => ['confirmed', 'min:6']
+            ]);
+        }
+
+        $user = Admin::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if($request->has('password') && !empty($request->password)){
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+
+        /** assign the role to user */
+        $user->syncRoles($request->role);
+
+        toast(__('Update Successfully!'), 'success');
+
+        return redirect()->route('admin.role-users.index');
     }
 
     /**
