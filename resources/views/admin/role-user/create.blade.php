@@ -3,12 +3,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Role And Permissions') }}</h1>
+            <h1>{{ __('Role User') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('Create Role') }}</h4>
+                <h4>{{ __('Create User with Role') }}</h4>
 
             </div>
             <div class="card-body">
