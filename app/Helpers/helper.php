@@ -74,3 +74,10 @@ function getSetting($key){
     $data = Setting::where('key', $key)->first();
     return $data->value;
 }
+
+/** check permission */
+
+function hasPermission(array $permissions){
+
+    return auth()->guard('admin')->user()->hasAnyPermission($permissions);
+}
