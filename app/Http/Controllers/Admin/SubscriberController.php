@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Mail;
 
 class SubscriberController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:subscribers index,admin'])->only(['index', 'store']);
+        $this->middleware(['permission:subscribers delete,admin'])->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class HomeSectionSettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:home section index,admin'])->only(['index']);
+        $this->middleware(['permission:home section update,admin'])->only(['update']);
+    }
+
     public function index()
     {
         $languages = Language::all();
@@ -27,7 +33,7 @@ class HomeSectionSettingController extends Controller
                 'category_section_four' => $request->category_section_four,
             ]
         );
-        
+
         toast(__('Updated Successfully'), 'success');
         return redirect()->back();
     }

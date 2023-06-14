@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactMessageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:contact message index,admin'])->only(['index']);
+        $this->middleware(['permission:contact message update,admin'])->only(['sendReplay']);
+    }
+
     public function index()
     {
         RecivedMail::query()->update(['seen' => 1]);
