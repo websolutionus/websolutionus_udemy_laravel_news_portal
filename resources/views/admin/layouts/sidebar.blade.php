@@ -17,8 +17,8 @@
                 <a href="#" class="nav-link"><i class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Starter') }}</li>
-            @if (hasPermission(['category index', 'category create', 'category udpate', 'category delete']))
 
+            @if (canAccess(['category index', 'category create', 'category udpate', 'category delete']))
             <li class="{{ setSidebarActive(['admin.category.*']) }}"><a class="nav-link"
                     href="{{ route('admin.category.index') }}"><i class="far fa-square"></i>
                     <span>{{ __('Category') }}</span></a></li>
