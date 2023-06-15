@@ -61,17 +61,16 @@
                                                     <td>{{ $item->title }}</td>
                                                     <td>{{ $item->category->name }}</td>
                                                     <td>
-                                                        <div class="form-group">
-                                                            <select name="is_approve" class="form-control" id="">
-                                                                <option value="0">{{ __('Pending') }}</option>
-                                                                <option value="1">{{ __('Approved') }}</option>
-                                                            </select>
-                                                        </div>
+                                                        <form action="" id="approve_form">
+                                                            <input type="hidden" name="id" value="{{ $item->id }}">
+                                                            <div class="form-group">
+                                                                <select name="is_approve" class="form-control" id="approve-input">
+                                                                    <option value="0">{{ __('Pending') }}</option>
+                                                                    <option value="1">{{ __('Approved') }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </form>
                                                     </td>
-
-
-
-
 
                                                     <td>
                                                         <a href="{{ route('admin.news.edit', $item->id) }}"
@@ -118,25 +117,27 @@
         @endforeach
 
         $(document).ready(function(){
-            $('.toggle-status').on('click', function(){
-                let id = $(this).data('id');
-                let name = $(this).data('name');
-                let status = $(this).prop('checked') ? 1 : 0;
 
+            $('#approve-input').on('change', function(){
+                $('#approve_form').submit();
+            });
+
+            $('#approve_form').on('submit', function(e){
+                e.preventDefault();
+
+                let data = $(this).serialize();
                 $.ajax({
-                    method: 'GET',
-                    url: "{{ route('admin.toggle-news-status') }}",
-                    data: {
-                        id:id,
-                        name:name,
-                        status:status
-                    },
+                    method: 'PUT',
+                    url: "{{ route('admin.approve.news') }}",
+                    data: data,
                     success: function(data){
                         if(data.status === 'success'){
                             Toast.fire({
                                 icon: 'success',
                                 title: data.message
                             })
+
+                            window.location.reload();
                         }
                     },
                     error: function(error){

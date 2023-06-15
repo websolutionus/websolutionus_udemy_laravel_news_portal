@@ -12,6 +12,7 @@ use App\Models\Tag;
 use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
@@ -50,6 +51,15 @@ class NewsController extends Controller
        return $categories;
     }
 
+    function approveNews(Request $request) : Response
+    {
+        $news = News::findOrFail($request->id);
+        $news->is_approved = $request->is_approve;
+        $news->save();
+
+        return response(['status' => 'success', 'message' => __('Updated Successfully')]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -81,6 +91,7 @@ class NewsController extends Controller
         $news->show_at_slider = $request->show_at_slider == 1 ? 1 : 0;
         $news->show_at_popular = $request->show_at_popular == 1 ? 1 : 0;
         $news->status = $request->status == 1 ? 1 : 0;
+        $news->is_approved = getRole() == 'Super Admin' || checkPermission('news all-access') ? 1 : 0;
         $news->save();
 
         $tags = explode(',', $request->tags);
