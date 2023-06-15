@@ -21,10 +21,11 @@ class NewsController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['permission:news index,admin'])->only(['index', 'toggleNewsStatus', 'copyNews']);
+        $this->middleware(['permission:news index,admin'])->only(['index', 'copyNews']);
         $this->middleware(['permission:news create,admin'])->only(['create', 'store']);
         $this->middleware(['permission:news update,admin'])->only(['edit', 'update']);
         $this->middleware(['permission:news delete,admin'])->only(['destroy']);
+        $this->middleware(['permission:news all-access,admin'])->only(['toggleNewsStatus']);
     }
 
     /**
@@ -36,7 +37,8 @@ class NewsController extends Controller
         return view('admin.news.index', compact('languages'));
     }
 
-    public function pendingNews() : View {
+    public function pendingNews(): View
+    {
         $languages = Language::all();
         return view('admin.pending-news.index', compact('languages'));
     }
@@ -47,11 +49,11 @@ class NewsController extends Controller
      */
     public function fetchCategory(Request $request)
     {
-       $categories = Category::where('language', $request->lang)->get();
-       return $categories;
+        $categories = Category::where('language', $request->lang)->get();
+        return $categories;
     }
 
-    function approveNews(Request $request) : Response
+    function approveNews(Request $request): Response
     {
         $news = News::findOrFail($request->id);
         $news->is_approved = $request->is_approve;
@@ -97,7 +99,7 @@ class NewsController extends Controller
         $tags = explode(',', $request->tags);
         $tagIds = [];
 
-        foreach($tags as $tag){
+        foreach ($tags as $tag) {
             $item = new Tag();
             $item->name = $tag;
             $item->language = $news->language;
@@ -112,7 +114,6 @@ class NewsController extends Controller
         toast(__('Created Successfully!'), 'success')->width('330');
 
         return redirect()->route('admin.news.index');
-
     }
 
     /**
@@ -138,6 +139,13 @@ class NewsController extends Controller
     {
         $languages = Language::all();
         $news = News::findOrFail($id);
+        
+        if(!canAccess(['news all-access'])){
+            if($news->auther_id != auth()->guard('admin')->user()->id){
+                return abort(404);
+            }
+        }
+
         $categories = Category::where('language', $news->language)->get();
 
         return view('admin.news.edit', compact('languages', 'news', 'categories'));
@@ -147,9 +155,13 @@ class NewsController extends Controller
      * Update the specified resource in storage.
      */
     public function update(AdminNewsUpdateRequest $request, string $id)
-{
+    {
 
-    $news = News::findOrFail($id);
+        $news = News::findOrFail($id);
+
+        if($news->auther_id != auth()->guard('admin')->user()->id || getRole() != 'Super Admin'){
+            return abort(404);
+        }
 
         /** Handle image */
         $imagePath = $this->handleFileUpload($request, 'image');
@@ -177,7 +189,7 @@ class NewsController extends Controller
         /** detach tags form pivot table */
         $news->tags()->detach($news->tags);
 
-        foreach($tags as $tag){
+        foreach ($tags as $tag) {
             $item = new Tag();
             $item->name = $tag;
             $item->language = $news->language;
@@ -192,7 +204,6 @@ class NewsController extends Controller
         toast(__('Update Successfully!'), 'success')->width('330');
 
         return redirect()->route('admin.news.index');
-
     }
 
     /**

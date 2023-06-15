@@ -90,47 +90,54 @@
                         @enderror
                     </div>
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="control-label">{{ __('Status') }}</div>
-                                    <label class="custom-switch mt-2">
-                                      <input value="1" type="checkbox" name="status" class="custom-switch-input">
-                                      <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="control-label">{{ __('Status') }}</div>
+                                <label class="custom-switch mt-2">
+                                    <input value="1" type="checkbox" name="status" class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
                             </div>
+                        </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="control-label">{{ __('Is Breaking News') }}</div>
-                                    <label class="custom-switch mt-2">
-                                      <input value="1" type="checkbox" name="is_breaking_news" class="custom-switch-input">
-                                      <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
+                        @if (canAccess(['news status', 'news all-access']))
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="control-label">{{ __('Is Breaking News') }}</div>
+                                <label class="custom-switch mt-2">
+                                    <input value="1" type="checkbox" name="is_breaking_news"
+                                        class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="control-label">{{ __('Show At Slider') }}</div>
-                                    <label class="custom-switch mt-2">
-                                      <input value="1" type="checkbox" name="show_at_slider" class="custom-switch-input">
-                                      <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="control-label">{{ __('Show At Slider') }}</div>
+                                <label class="custom-switch mt-2">
+                                    <input value="1" type="checkbox" name="show_at_slider" class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
                             </div>
-                            <div class="col-md-3">
+                        </div>
+
+                        <div class="col-md-3">
 
                             <div class="form-group">
                                 <div class="control-label">{{ __('Show At Popular') }}</div>
                                 <label class="custom-switch mt-2">
-                                  <input value="1" type="checkbox" name="show_at_popular" class="custom-switch-input">
-                                  <span class="custom-switch-indicator"></span>
+                                    <input value="1" type="checkbox" name="show_at_popular"
+                                        class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
                                 </label>
-                            </div>
                             </div>
 
                         </div>
+                        @endif
+
+                    </div>
 
                     <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
                 </form>
@@ -141,23 +148,27 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('#language-select').on('change', function(){
+        $(document).ready(function() {
+            $('#language-select').on('change', function() {
                 let lang = $(this).val();
                 $.ajax({
                     method: 'GET',
                     url: "{{ route('admin.fetch-news-category') }}",
-                    data: {lang:lang},
-                    success: function(data){
+                    data: {
+                        lang: lang
+                    },
+                    success: function(data) {
                         $('#category').html("");
-                        $('#category').html(`<option value="">---{{ __('Select') }}---</option>`);
+                        $('#category').html(
+                            `<option value="">---{{ __('Select') }}---</option>`);
 
-                        $.each(data, function(index, data){
-                            $('#category').append(`<option value="${data.id}">${data.name}</option>`)
+                        $.each(data, function(index, data) {
+                            $('#category').append(
+                                `<option value="${data.id}">${data.name}</option>`)
                         })
 
                     },
-                    error: function(error){
+                    error: function(error) {
                         console.log(error);
                     }
                 })
