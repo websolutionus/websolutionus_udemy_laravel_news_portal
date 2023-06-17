@@ -29,29 +29,30 @@
                 </ul>
                 <div class="tab-content tab-bordered" id="myTab3Content">
                     @foreach ($languages as $language)
-
                         <div class="tab-pane fade show {{ $loop->index === 0 ? 'active' : '' }}"
                             id="home-{{ $language->lang }}" role="tabpanel" aria-labelledby="home-tab2">
 
                             <div>
                                 <div class="card">
-                                 <div class="card-body">
-                                     <div class="row">
-                                        <form method="POST" action="{{ route('admin.extract-localize-string') }}">
-                                            @csrf
-                                            <input type="hidden" name="directory" value="{{ resource_path('views/frontend') }}">
-                                            <input type="hidden" name="language_code" value="{{ $language->lang }}">
-                                            <input type="hidden" name="file_name" value="frontend">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <form method="POST" action="{{ route('admin.extract-localize-string') }}">
+                                                @csrf
+                                                <input type="hidden" name="directory"
+                                                    value="{{ resource_path('views/frontend') }}">
+                                                <input type="hidden" name="language_code" value="{{ $language->lang }}">
+                                                <input type="hidden" name="file_name" value="frontend">
 
-                                            <button type="submit" class="btn btn-primary mx-3">{{ __('Generate Strings') }}</button>
-                                        </form>
+                                                <button type="submit"
+                                                    class="btn btn-primary mx-3">{{ __('Generate Strings') }}</button>
+                                            </form>
 
-                                        <button class="btn btn-dark mx-3">{{ __('Translate Strings') }}</button>
+                                            <button class="btn btn-dark mx-3">{{ __('Translate Strings') }}</button>
 
-                                     </div>
-                                 </div>
+                                        </div>
+                                    </div>
                                 </div>
-                             </div>
+                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -61,11 +62,34 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
+                                                <th class="text-center">
+                                                    {{ __('String') }}
+                                                </th>
+                                                <th class="text-center">
+                                                    {{ __('Trunslation') }}
+                                                </th>
+                                                <th class="text-center">
+                                                    {{ __('Action') }}
+                                                </th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $translatedValues = trans('frontend', [], $language->lang);
 
+                                            @endphp
+
+                                            @foreach ($translatedValues as $key => $value)
+                                            <tr>
+                                                <td>{{ ++$loop->index }}</td>
+                                                <td>{{ $key }}</td>
+                                                <td>{{ $value }}</td>
+                                                <td>
+                                                    <a href="" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -88,7 +112,7 @@
             $("#table-{{ $language->lang }}").dataTable({
                 "columnDefs": [{
                     "sortable": false,
-                    "targets": [2, 3]
+
                 }]
             });
         @endforeach
