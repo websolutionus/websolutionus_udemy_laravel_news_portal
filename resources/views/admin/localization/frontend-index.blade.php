@@ -41,6 +41,7 @@
                                             @csrf
                                             <input type="hidden" name="directory" value="{{ resource_path('views/frontend') }}">
                                             <input type="hidden" name="language_code" value="{{ $language->lang }}">
+                                            <input type="hidden" name="file_name" value="frontend">
 
                                             <button type="submit" class="btn btn-primary mx-3">{{ __('Generate Strings') }}</button>
                                         </form>
