@@ -147,6 +147,10 @@
                         <span>{{ __('Settings') }}</span></a></li>
             @endif
 
+            <li class="{{ setSidebarActive(['admin.setting.*']) }}"><a class="nav-link"
+                href="{{ route('admin.localization.index') }}"><i class="far fa-square"></i>
+                <span>{{ __('Localization') }}</span></a></li>
+
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li> --}}
 
             {{-- <li class="dropdown">
