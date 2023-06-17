@@ -77,7 +77,7 @@
                                         <tbody>
                                             @php
                                                 $translatedValues = trans('frontend', [], $language->lang);
-
+                                                // dd($translatedValues);
                                             @endphp
 
                                             @foreach ($translatedValues as $key => $value)
@@ -129,7 +129,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="{{ route('admin.update-lang-string') }}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <label for="">{{ __('Value') }}</label>
                             <input type="text" name="value" class="form-control" value="">
@@ -140,7 +141,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="button" class="btn btn-primary">{{ __('Save changes') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Save changes') }}</button>
                         </div>
                     </form>
                 </div>
