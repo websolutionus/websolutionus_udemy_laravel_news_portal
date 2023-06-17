@@ -39,7 +39,7 @@
                                      <div class="row">
                                         <form method="POST" action="{{ route('admin.extract-localize-string') }}">
                                             @csrf
-                                            <input type="hidden" name="directory" value="{{ resource_path('views') }}">
+                                            <input type="hidden" name="directory" value="{{ resource_path('views/frontend') }}">
                                             <input type="hidden" name="language_code" value="{{ $language->lang }}">
 
                                             <button type="submit" class="btn btn-primary mx-3">{{ __('Generate Strings') }}</button>

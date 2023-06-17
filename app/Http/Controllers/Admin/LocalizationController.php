@@ -31,7 +31,22 @@ class LocalizationController extends Controller
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 
         $localizationStrings = [];
-        
+
+        // Iterate over each file in the directory
+        foreach($files as $file){
+            if($file->isDir()){
+                continue;
+            }
+
+            $contents = file_get_contents($file->getPathname());
+
+            preg_match_all('/__\([\'"](.+?)[\'"]\)/', $contents, $matches);
+
+            dd($matches);
+
+        }
+
+
 
     }
 
