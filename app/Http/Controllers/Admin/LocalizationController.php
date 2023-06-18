@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -83,26 +84,33 @@ class LocalizationController extends Controller
 
     function translateString(Request $request)
     {
-        $client = new \GuzzleHttp\Client();
 
-        $response = $client->request('POST', 'https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=de&textType=plain&profanityAction=NoAction', [
-            'body' => '[
+        $languageStrings = trans($request->file_name, [], $request->language_code);
 
-            {
+        $keyStirngs = array_keys($languageStrings);
 
-                "Text": "I would really like to drive your car around the block a few times."
 
-            }
+        $text = implode(' || ', $keyStirngs);
 
-        ]',
-            'headers' => [
-                'X-RapidAPI-Host' => 'microsoft-translator-text.p.rapidapi.com',
-                'X-RapidAPI-Key' => '9644c1868amsh7d7ad4b2feb85afp1973f8jsneb5a65f1a736',
-                'content-type' => 'application/json',
-            ],
+        dd($text);
+
+
+
+
+        $response = Http::withHeaders([
+            'X-RapidAPI-Host' => 'microsoft-translator-text.p.rapidapi.com',
+            'X-RapidAPI-Key' => '9644c1868amsh7d7ad4b2feb85afp1973f8jsneb5a65f1a736',
+            'content-type' => 'application/json',
+        ])
+        ->post('https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=bn&textType=plain&profanityAction=NoAction',[
+            [
+                "Text" => "I would really like to drive your car around the block a few times."
+            ]
         ]);
 
-        echo $response->getBody();
+        return $response->body();
+
+
     }
 
 
