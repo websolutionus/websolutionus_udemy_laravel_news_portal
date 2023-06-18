@@ -63,4 +63,5 @@ return array (
   'This is your login Credentials' => 'এটি আপনার লগইন ক্রেডেনশিয়াল',
   'Email' => 'ই-মেইল',
   'Password' => 'পাসওয়ার্ড',
+  'Top bar ad url' => 'শীর্ষ বার বিজ্ঞাপন',
 );

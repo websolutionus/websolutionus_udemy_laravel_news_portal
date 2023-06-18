@@ -63,4 +63,5 @@ return array (
   'This is your login Credentials' => 'This is your login Credentials',
   'Email' => 'Email',
   'Password' => 'Password',
+  'About Page' => 'About Page twol',
 );
