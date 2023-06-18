@@ -84,32 +84,36 @@ class LocalizationController extends Controller
 
     function translateString(Request $request)
     {
+        $langCode = $request->language_code;
 
         $languageStrings = trans($request->file_name, [], $request->language_code);
 
         $keyStirngs = array_keys($languageStrings);
 
-
         $text = implode(' || ', $keyStirngs);
-
-        dd($text);
-
-
-
 
         $response = Http::withHeaders([
             'X-RapidAPI-Host' => 'microsoft-translator-text.p.rapidapi.com',
             'X-RapidAPI-Key' => '9644c1868amsh7d7ad4b2feb85afp1973f8jsneb5a65f1a736',
             'content-type' => 'application/json',
         ])
-        ->post('https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=bn&textType=plain&profanityAction=NoAction',[
+        ->post("https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=$langCode&textType=plain&profanityAction=NoAction",[
             [
-                "Text" => "I would really like to drive your car around the block a few times."
+                "Text" => $text
             ]
         ]);
 
-        return $response->body();
+        $translatedText = json_decode($response->body())[0]->translations[0]->text;
 
+        $translatedValues = explode(' || ', $translatedText);
+
+        $updatedArray = array_combine($keyStirngs, $translatedValues);
+
+        $phpArray = "<?php\n\nreturn " . var_export($updatedArray, true) . ";\n";
+
+        file_put_contents(lang_path($langCode.'/'.$request->file_name.'.php'), $phpArray);
+
+        return response(['status' => 'success', __('Translation is completed')]);
 
     }
 
