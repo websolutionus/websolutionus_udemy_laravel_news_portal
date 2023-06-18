@@ -39,7 +39,7 @@
                                             <form method="POST" action="{{ route('admin.extract-localize-string') }}">
                                                 @csrf
                                                 <input type="hidden" name="directory"
-                                                    value="{{ resource_path('views/frontend') }}">
+                                                    value="{{ resource_path('views/frontend') }},{{ app_path('Http/Controllers/Frontend') }},{{ resource_path('views/mail') }}">
                                                 <input type="hidden" name="language_code" value="{{ $language->lang }}">
                                                 <input type="hidden" name="file_name" value="frontend">
 
