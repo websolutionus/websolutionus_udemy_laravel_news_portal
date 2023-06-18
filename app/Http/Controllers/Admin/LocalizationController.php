@@ -81,5 +81,29 @@ class LocalizationController extends Controller
 
     }
 
+    function translateString(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('POST', 'https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=de&textType=plain&profanityAction=NoAction', [
+            'body' => '[
+
+            {
+
+                "Text": "I would really like to drive your car around the block a few times."
+
+            }
+
+        ]',
+            'headers' => [
+                'X-RapidAPI-Host' => 'microsoft-translator-text.p.rapidapi.com',
+                'X-RapidAPI-Key' => '9644c1868amsh7d7ad4b2feb85afp1973f8jsneb5a65f1a736',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        echo $response->getBody();
+    }
+
 
 }
