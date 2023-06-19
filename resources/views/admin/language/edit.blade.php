@@ -3,12 +3,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Language') }}</h1>
+            <h1>{{ __('admin.Language') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('Edit Language') }}</h4>
+                <h4>{{ __('admin.Edit Language') }}</h4>
 
             </div>
             <div class="card-body">
@@ -16,9 +16,9 @@
                     @csrf
                     @method('PUT')
                     <div class="form-group">
-                        <label for="">{{ __('Language') }}</label>
+                        <label for="">{{ __('admin.Language') }}</label>
                         <select name="lang" id="language-select" class="form-control select2">
-                            <option value="">--{{ __('Select') }}--</option>
+                            <option value="">--{{ __('admin.Select') }}--</option>
                             @foreach (config('language') as $key => $lang)
                                 <option
                                 @if ($language->lang === $key)
@@ -33,40 +33,40 @@
 
                     </div>
                     <div class="form-group">
-                        <label for="">{{ __('Name') }}</label>
+                        <label for="">{{ __('admin.Name') }}</label>
                         <input readonly name="name" value="{{ $language->name }}" type="text" class="form-control" id="name">
                         @error('name')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">{{ __('Slug') }}</label>
+                        <label for="">{{ __('admin.Slug') }}</label>
                         <input readonly name="slug" value="{{ $language->slug }}" type="text" class="form-control" id="slug">
                         @error('slug')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">{{ __('Is it default?') }} </label>
+                        <label for="">{{ __('admin.Is it default?') }} </label>
                         <select name="default" id="" class="form-control">
-                            <option {{ $language->default === 0 ? 'selected' : '' }} value="0">{{ __('No') }}</option>
-                            <option {{ $language->default === 1 ? 'selected' : '' }} value="1">{{ __('Yes') }}</option>
+                            <option {{ $language->default === 0 ? 'selected' : '' }} value="0">{{ __('admin.No') }}</option>
+                            <option {{ $language->default === 1 ? 'selected' : '' }} value="1">{{ __('admin.Yes') }}</option>
                         </select>
                         @error('defalut')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="">{{ __('Status') }}</label>
+                        <label for="">{{ __('admin.Status') }}</label>
                         <select name="status" id="" class="form-control">
-                            <option {{ $language->status === 1 ? 'selected' : '' }} value="1">{{ __('Active') }}</option>
-                            <option {{ $language->status === 0 ? 'selected' : '' }} value="0">{{ __('Inactive') }}</option>
+                            <option {{ $language->status === 1 ? 'selected' : '' }} value="1">{{ __('admin.Active') }}</option>
+                            <option {{ $language->status === 0 ? 'selected' : '' }} value="0">{{ __('admin.Inactive') }}</option>
                         </select>
                         @error('status')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('admin.Update') }}</button>
                 </form>
             </div>
         </div>

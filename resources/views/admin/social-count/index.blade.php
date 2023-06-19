@@ -3,15 +3,15 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Social Count') }}</h1>
+            <h1>{{ __('admin.Social Count') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('All Social Counts') }}</h4>
+                <h4>{{ __('admin.All Social Counts') }}</h4>
                 <div class="card-header-action">
                     <a href="{{ route('admin.social-count.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> {{ __('Create new') }}
+                        <i class="fas fa-plus"></i> {{ __('admin.Create new') }}
                     </a>
                 </div>
             </div>
@@ -42,11 +42,11 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
-                                                <th>{{ __('Icon') }}</th>
-                                                <th>{{ __('Link') }}</th>
-                                                <th>{{ __('Status') }}</th>
-                                                <th>{{ __('language') }}</th>
-                                                <th>{{ __('Action') }}</th>
+                                                <th>{{ __('admin.Icon') }}</th>
+                                                <th>{{ __('admin.Link') }}</th>
+                                                <th>{{ __('admin.Status') }}</th>
+                                                <th>{{ __('admin.language') }}</th>
+                                                <th>{{ __('admin.Action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,9 +59,9 @@
 
                                                     <td>
                                                         @if ($socialCount->status == 1)
-                                                            <span class="badge badge-success">{{ __('Yes') }}</span>
+                                                            <span class="badge badge-success">{{ __('admin.Yes') }}</span>
                                                         @else
-                                                            <span class="badge badge-danger">{{ __('No') }}</span>
+                                                            <span class="badge badge-danger">{{ __('admin.No') }}</span>
                                                         @endif
 
                                                     </td>

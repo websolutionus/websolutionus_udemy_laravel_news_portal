@@ -71,7 +71,7 @@ class LocalizationController extends Controller
         // dd(lang_path($languageCode.'/'.$fileName.'.php'));
         file_put_contents(lang_path($languageCode.'/'.$fileName.'.php'), $phpArray);
 
-        toast(__('Generated Successfully!'), 'success');
+        toast(__('admin.Generated Successfully!'), 'success');
 
         return redirect()->back();
     }
@@ -86,7 +86,7 @@ class LocalizationController extends Controller
 
         file_put_contents(lang_path($request->lang_code.'/'.$request->file_name.'.php'), $phpArray);
 
-        toast(__('Updated Successfully!'), 'success');
+        toast(__('admin.Updated Successfully!'), 'success');
 
         return redirect()->back();
 
@@ -124,7 +124,7 @@ class LocalizationController extends Controller
 
         file_put_contents(lang_path($langCode.'/'.$request->file_name.'.php'), $phpArray);
 
-        return response(['status' => 'success', __('Translation is completed')]);
+        return response(['status' => 'success', __('admin.Translation is completed')]);
 
     }
 

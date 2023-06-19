@@ -3,15 +3,15 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('News') }}</h1>
+            <h1>{{ __('admin.News') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('All News') }}</h4>
+                <h4>{{ __('admin.All News') }}</h4>
                 <div class="card-header-action">
                     <a href="{{ route('admin.news.create') }}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> {{ __('Create new') }}
+                        <i class="fas fa-plus"></i> {{ __('admin.Create new') }}
                     </a>
                 </div>
             </div>
@@ -55,16 +55,16 @@
                                                 <th class="text-center">
                                                     #
                                                 </th>
-                                                <th>{{ __('Image') }}</th>
-                                                <th>{{ __('Title') }}</th>
-                                                <th>{{ __('Category') }}</th>
+                                                <th>{{ __('admin.Image') }}</th>
+                                                <th>{{ __('admin.Title') }}</th>
+                                                <th>{{ __('admin.Category') }}</th>
                                                 @if (canAccess(['news status', 'news all-access']))
-                                                <th>{{ __('In Breaking') }}</th>
-                                                <th>{{ __('In Slider') }}</th>
-                                                <th>{{ __('In Popular') }}</th>
+                                                <th>{{ __('admin.In Breaking') }}</th>
+                                                <th>{{ __('admin.In Slider') }}</th>
+                                                <th>{{ __('admin.In Popular') }}</th>
                                                 @endif
-                                                <th>{{ __('Status') }}</th>
-                                                <th>{{ __('Action') }}</th>
+                                                <th>{{ __('admin.Status') }}</th>
+                                                <th>{{ __('admin.Action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

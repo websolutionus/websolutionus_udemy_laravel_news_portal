@@ -13,6 +13,7 @@ return array (
   'by' => 'দ্বারা',
   'recent post' => 'সাম্প্রতিক পোস্ট',
   'popular post' => 'জনপ্রিয় পোস্ট',
+  'Most Viewed' => 'সর্বাধিক দেখা হয়েছে',
   'stay conected' => 'সংযুক্ত থাকুন',
   'tags' => 'ট্যাগ',
   'Advertise' => 'বিজ্ঞাপন',
@@ -63,6 +64,4 @@ return array (
   'This is your login Credentials' => 'এটি আপনার লগইন ক্রেডেনশিয়াল',
   'Email' => 'ই-মেইল',
   'Password' => 'পাসওয়ার্ড',
-  'Top bar ad url' => 'শীর্ষ বার বিজ্ঞাপন',
-  'About Page' => 'পাতা সম্বন্ধে abc',
 );

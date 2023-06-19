@@ -5,7 +5,7 @@
             @method('PUT')
 
             <div class="form-group">
-                <label>{{ __('Pick Your Color') }}</label>
+                <label>{{ __('admin.Pick Your Color') }}</label>
                 <div class="input-group colorpickerinput">
                     <input value="{{ $settings['site_color'] }}" name="site_color" type="text" class="form-control">
                     <div class="input-group-append">
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+            <button type="submit" class="btn btn-primary">{{ __('admin.Save') }}</button>
         </form>
     </div>
 </div>

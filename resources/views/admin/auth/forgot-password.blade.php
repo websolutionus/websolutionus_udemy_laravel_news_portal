@@ -37,29 +37,29 @@
             </div>
 
             <div class="card card-primary">
-              <div class="card-header"><h4>{{ __('Forgot Password') }}</h4></div>
+              <div class="card-header"><h4>{{ __('admin.Forgot Password') }}</h4></div>
 
               <div class="card-body">
-                <p >{{ __('Forgot your password? No problem. We got you.') }}</p>
+                <p >{{ __('admin.Forgot your password? No problem. We got you.') }}</p>
                 @if (session()->has('success'))
                     <i><b style="color:green">{{ session()->get('success') }}</b></i>
                 @endif
                 <form method="POST" action="{{ route('admin.forgot-password.send') }}" class="needs-validation" novalidate="">
                     @csrf
                   <div class="form-group">
-                    <label for="email">{{ __('Email') }}</label>
+                    <label for="email">{{ __('admin.Email') }}</label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
                     @error('email')
                         <code>{{ $message }}</code>
                     @enderror
                     <div class="invalid-feedback">
-                      {{ __('Please fill in your email') }}
+                      {{ __('admin.Please fill in your email') }}
                     </div>
                   </div>
 
                   <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      {{ __('Send Link') }}
+                      {{ __('admin.Send Link') }}
                     </button>
                   </div>
                 </form>
@@ -69,7 +69,7 @@
             </div>
 
             <div class="simple-footer">
-              {{ __('Copyright') }} &copy; {{ __('WebSolutionUs 2023') }}
+              {{ __('admin.Copyright') }} &copy; {{ __('admin.WebSolutionUs 2023') }}
             </div>
           </div>
         </div>

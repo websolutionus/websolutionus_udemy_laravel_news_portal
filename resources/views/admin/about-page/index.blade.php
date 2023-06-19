@@ -3,12 +3,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('About Page') }}</h1>
+            <h1>{{ __('admin.About Page') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('About Page') }}</h4>
+                <h4>{{ __('admin.About Page') }}</h4>
 
             </div>
 
@@ -37,14 +37,14 @@
 
 
                                     <div class="form-group">
-                                        <label for="">{{ __('About Content') }}</label>
+                                        <label for="">{{ __('admin.About Content') }}</label>
                                         <textarea name="content" class="summernote-{{ $language->lang }}" id="" cols="30" rows="10">{!! @$about->content !!}</textarea>
                                         <input type="hidden" name="language" value="{{ $language->lang }}">
 
                                     </div>
 
 
-                                    <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('admin.Save') }}</button>
                                 </form>
                             </div>
                         </div>

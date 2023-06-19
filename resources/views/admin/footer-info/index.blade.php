@@ -3,12 +3,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('Footer Info') }}</h1>
+            <h1>{{ __('admin.Footer Info') }}</h1>
         </div>
 
         <div class="card card-primary">
             <div class="card-header">
-                <h4>{{ __('Footer Info') }}</h4>
+                <h4>{{ __('admin.Footer Info') }}</h4>
 
             </div>
 
@@ -38,21 +38,21 @@
 
                                     <div class="form-group">
                                         <img src="{{ asset($footerInfo->logo) }}" width="100px" alt=""><br>
-                                        <label for="">{{ __('Logo') }}</label>
+                                        <label for="">{{ __('admin.Logo') }}</label>
                                         <input type="file" name="logo" class="form-control">
                                         <input type="hidden" name="language" value="{{ $language->lang }}" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label for="">{{ __('Short Description') }}</label>
+                                        <label for="">{{ __('admin.Short Description') }}</label>
                                         <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $footerInfo->description }}</textarea>
 
                                     </div>
                                     <div class="form-group">
-                                        <label for="">{{ __('Copyright text') }}</label>
+                                        <label for="">{{ __('admin.Copyright text') }}</label>
                                         <input type="text" name="copyright" class="form-control" value="{{ $footerInfo->copyright }}">
 
                                     </div>
-                                    <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('admin.Save') }}</button>
                                 </form>
                             </div>
                         </div>

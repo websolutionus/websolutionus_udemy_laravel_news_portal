@@ -5,8 +5,8 @@
             <div class="row no-gutters">
                 <div class="col-md-8 ">
                     <div class="card__post-carousel">
-                        @foreach ($heroSlider as $slider)    
-                        @if ($loop->index <= 4)  
+                        @foreach ($heroSlider as $slider)
+                        @if ($loop->index <= 4)
                             <div class="item">
                                 <!-- Post Article -->
                                 <div class="card__post">
@@ -29,12 +29,12 @@
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item">
                                                         <a href="javascript:;">
-                                                            {{ __('by') }} {{ $slider->auther->name }}
+                                                            {{ __('frontend.by') }} {{ $slider->auther->name }}
                                                         </a>
                                                     </li>
                                                     <li class="list-inline-item">
                                                         <span>
-                                                            
+
                                                             {{ date('M d, Y', strtotime($slider->created_at)) }}
                                                         </span>
                                                     </li>
@@ -46,14 +46,14 @@
 
                                 </div>
                             </div>
-                        @endif 
+                        @endif
                         @endforeach
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="popular__news-right">
                         <!-- Post Article -->
-                        @foreach ($heroSlider as $slider)    
+                        @foreach ($heroSlider as $slider)
                         @if ($loop->index > 4 && $loop->index <= 6)
                         <div class="card__post ">
                             <div class="card__post__body card__post__transition">
@@ -91,7 +91,7 @@
                         </div>
                         @endif
                         @endforeach
-                        
+
                     </div>
                 </div>
             </div>
