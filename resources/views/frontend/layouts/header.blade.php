@@ -34,8 +34,8 @@
                         </div>
 
                         <ul class="topbar-link">
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="register.html">Register</a></li>
+                            <li><a href="{{ route('login') }}">{{ __('frontend.Login') }}</a></li>
+                            <li><a href="{{ route('register') }}">{{ __('frontend.Register') }}</a></li>
                         </ul>
                     </div>
                 </div>
