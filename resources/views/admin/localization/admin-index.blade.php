@@ -96,7 +96,7 @@
 
                                                             <button data-langcode="{{ $language->lang }}"
                                                                 data-key="{{ $key }}"
-                                                                data-value="{{ $value }}" data-filename="frontend"
+                                                                data-value="{{ $value }}" data-filename="admin"
                                                                 type="button" class="btn btn-primary modal_btn"
                                                                 data-toggle="modal" data-target="#exampleModal">
                                                                 <i class="fas fa-edit"></i>

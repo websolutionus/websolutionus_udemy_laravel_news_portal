@@ -64,4 +64,5 @@ return array (
   'Email' => 'ই-মেইল',
   'Password' => 'পাসওয়ার্ড',
   'Top bar ad url' => 'শীর্ষ বার বিজ্ঞাপন',
+  'About Page' => 'পাতা সম্বন্ধে abc',
 );
