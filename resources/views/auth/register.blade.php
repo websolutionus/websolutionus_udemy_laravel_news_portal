@@ -8,7 +8,7 @@
                 <div class="col-md-12">
                     <div class="card mx-auto" style="max-width: 380px;">
                         <div class="card-body">
-                            <h4 class="card-title mb-4">{{ __('Register') }}</h4>
+                            <h4 class="card-title mb-4">{{ __('frontend.Register') }}</h4>
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 {{-- <a href="#" class="btn btn-facebook btn-block mb-2 text-white"> <i

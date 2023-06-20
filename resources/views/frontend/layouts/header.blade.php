@@ -34,8 +34,18 @@
                         </div>
 
                         <ul class="topbar-link">
+                            @if (!auth()->check())
                             <li><a href="{{ route('login') }}">{{ __('frontend.Login') }}</a></li>
                             <li><a href="{{ route('register') }}">{{ __('frontend.Register') }}</a></li>
+                            @else
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                            <li><a  onclick="event.preventDefault();
+                                this.closest('form').submit();" href="{{ route('register') }}">{{ __('frontend.Logout') }}</a></li>
+
+                            </form>
+                            @endif
                         </ul>
                     </div>
                 </div>
