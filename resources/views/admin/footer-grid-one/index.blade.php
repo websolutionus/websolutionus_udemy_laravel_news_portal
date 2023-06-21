@@ -31,7 +31,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="">{{ __('admin.Footer Title') }}</label>
-                                        <input type="text" class="form-control" name="title" value="{{ $footerTitle->value }}">
+                                        <input type="text" class="form-control" name="title" value="{{ @$footerTitle->value }}">
                                         <input type="hidden" value="{{ $language->lang }}" class="form-control" name="language">
                                         @error('title')
                                             <p class="text-danger">{{ $message }}</p>

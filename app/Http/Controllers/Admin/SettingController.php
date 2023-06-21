@@ -95,4 +95,26 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
+    function updateMicrosoftApiSetting(Request $request) : RedirectResponse {
+
+        $request->validate([
+            'site_microsoft_api_host' => ['required'],
+            'site_microsoft_api_key' => ['required'],
+        ]);
+
+        Setting::updateOrCreate(
+            ['key' => 'site_microsoft_api_host'],
+            ['value' => $request->site_microsoft_api_host]
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'site_microsoft_api_key'],
+            ['value' => $request->site_microsoft_api_key]
+        );
+
+        toast(__('admin.Updated Successfully!'), 'success');
+
+        return redirect()->back();
+    }
+
 }

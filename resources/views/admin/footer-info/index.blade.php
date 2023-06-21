@@ -37,19 +37,19 @@
                                     @csrf
 
                                     <div class="form-group">
-                                        <img src="{{ asset($footerInfo->logo) }}" width="100px" alt=""><br>
+                                        <img src="{{ asset(@$footerInfo->logo) }}" width="100px" alt=""><br>
                                         <label for="">{{ __('admin.Logo') }}</label>
                                         <input type="file" name="logo" class="form-control">
                                         <input type="hidden" name="language" value="{{ $language->lang }}" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="">{{ __('admin.Short Description') }}</label>
-                                        <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $footerInfo->description }}</textarea>
+                                        <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ @$footerInfo->description }}</textarea>
 
                                     </div>
                                     <div class="form-group">
                                         <label for="">{{ __('admin.Copyright text') }}</label>
-                                        <input type="text" name="copyright" class="form-control" value="{{ $footerInfo->copyright }}">
+                                        <input type="text" name="copyright" class="form-control" value="{{ @$footerInfo->copyright }}">
 
                                     </div>
                                     <button type="submit" class="btn btn-primary">{{ __('admin.Save') }}</button>
