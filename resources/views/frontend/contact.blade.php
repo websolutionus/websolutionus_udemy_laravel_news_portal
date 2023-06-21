@@ -1,7 +1,6 @@
 @extends('frontend.layouts.master')
 
 @section('content')
-
     <!-- Breadcrumb  -->
     <section>
         <div class="container">
@@ -59,8 +58,8 @@
                                     <label>{{ __('frontend.Your message') }} </label>
                                     <textarea class="form-control" rows="8" name="message"></textarea>
                                     @error('message')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="form-group mb-4">
                                     <button type="submit" class="btn btn-primary">{{ __('frontend.Submit') }}</button>
@@ -101,36 +100,20 @@
                         </ul>
 
                         <div class="social__media">
-                            <h5>find us</h5>
+                            <h5>{{ __('frontend.find us') }}</h5>
                             <ul class="list-inline">
+                                @foreach ($socials as $social)
+                                    <li class="list-inline-item-contact mx-1">
+                                        <a href="https://www.linkedin.com/"
+                                            class="btn btn-social rounded text-white facebook">
+                                            <i class="{{ $social->icon }}"></i>
+                                        </a>
+                                    </li>
+                                @endforeach
 
-                                <li class="list-inline-item">
-                                    <a href="#" class="btn btn-social rounded text-white facebook">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="btn btn-social rounded text-white twitter">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="btn btn-social rounded text-white whatsapp">
-                                        <i class="fa fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="btn btn-social rounded text-white telegram">
-                                        <i class="fa fa-telegram"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#" class="btn btn-social rounded text-white linkedin">
-                                        <i class="fa fa-linkedin"></i>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
             </div>

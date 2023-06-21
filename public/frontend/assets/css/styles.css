@@ -17962,19 +17962,19 @@ body.offcanvas-active {
 }
 
 .pagination {
-  display: flex;
+    display: flex;
 }
 
-.pagination .disabled > span {
+.pagination .disabled>span {
     color: black;
     float: left;
     text-decoration: none;
     transition: background-color 0.3s;
     border: 1px solid #eee;
-      border-top-color: rgb(238, 238, 238);
-      border-right-color: rgb(238, 238, 238);
-      border-bottom-color: rgb(238, 238, 238);
-      border-left-color: rgb(238, 238, 238);
+    border-top-color: rgb(238, 238, 238);
+    border-right-color: rgb(238, 238, 238);
+    border-bottom-color: rgb(238, 238, 238);
+    border-left-color: rgb(238, 238, 238);
     margin: 0 4px;
     border-radius: 50%;
     width: 35px;
@@ -17982,18 +17982,18 @@ body.offcanvas-active {
     padding: 0;
     line-height: 34px;
     text-align: center;
-  }
+}
 
-  .pagination .page-item > span {
+.pagination .page-item>span {
     color: black;
     float: left;
     text-decoration: none;
     transition: background-color 0.3s;
     border: 1px solid #eee;
-      border-top-color: rgb(238, 238, 238);
-      border-right-color: rgb(238, 238, 238);
-      border-bottom-color: rgb(238, 238, 238);
-      border-left-color: rgb(238, 238, 238);
+    border-top-color: rgb(238, 238, 238);
+    border-right-color: rgb(238, 238, 238);
+    border-bottom-color: rgb(238, 238, 238);
+    border-left-color: rgb(238, 238, 238);
     margin: 0 4px;
     border-radius: 50%;
     width: 35px;
@@ -18001,21 +18001,51 @@ body.offcanvas-active {
     padding: 0;
     line-height: 34px;
     text-align: center;
-  }
+}
 
-  .pagination .page-item > a {
+.pagination .page-item>a {
     text-align: center;
 
-  }
+}
 
-  .btn-social {
+.btn-social {
     background-color: #fff !important;
-  }
+}
 
-  .btn-social > i{
+.btn-social>i {
     color: var(--colorPrimary) !important;
-  }
+}
 
+.img-fluid.rounded-circle {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+}
+
+.wrap__profile-author {
+    width: 50% !important;
+}
+
+.wrap__profile-author-detail {
+    position: relative;
+}
+
+.author-wrapper {
+    position: absolute;
+    top: 20%;
+}
+
+.social__media__widget-icon {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.list-inline-item-contact a {
+    background-color: var(--colorPrimary) !important;
+}
+.list-inline-item-contact a i {
+    color: #fff !important;
+}
 
 
 

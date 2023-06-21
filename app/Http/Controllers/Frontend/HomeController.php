@@ -13,6 +13,7 @@ use App\Models\HomeSectionSetting;
 use App\Models\News;
 use App\Models\RecivedMail;
 use App\Models\SocialCount;
+use App\Models\SocialLink;
 use App\Models\Subscriber;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -270,7 +271,8 @@ class HomeController extends Controller
     public function contact()
     {
         $contact = Contact::where('language', getLangauge())->first();
-        return view('frontend.contact', compact('contact'));
+        $socials = SocialLink::where('status', 1)->get();
+        return view('frontend.contact', compact('contact', 'socials'));
     }
 
     public function handleContactFrom(Request $request)
