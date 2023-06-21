@@ -20,7 +20,7 @@
                 <!-- End breadcrumb -->
 
                 <div class="wrap__about-us">
-                    {!! $about->content !!}
+                    {!! @$about->content !!}
                 </div>
             </div>
 
