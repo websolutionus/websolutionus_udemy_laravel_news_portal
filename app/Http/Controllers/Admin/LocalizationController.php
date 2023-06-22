@@ -97,13 +97,16 @@ class LocalizationController extends Controller
 
     function translateString(Request $request)
     {
+        try {
+
         $langCode = $request->language_code;
 
         $languageStrings = trans($request->file_name, [], $request->language_code);
 
         $keyStirngs = array_keys($languageStrings);
 
-        $text = implode(' || ', $keyStirngs);
+        $text = implode(' | ', $keyStirngs);
+
 
         $response = Http::withHeaders([
             'X-RapidAPI-Host' => getSetting('site_microsoft_api_host'),
@@ -116,9 +119,10 @@ class LocalizationController extends Controller
             ]
         ]);
 
+
         $translatedText = json_decode($response->body())[0]->translations[0]->text;
 
-        $translatedValues = explode(' || ', $translatedText);
+        $translatedValues = explode(' | ', $translatedText);
 
         $updatedArray = array_combine($keyStirngs, $translatedValues);
 
@@ -127,6 +131,10 @@ class LocalizationController extends Controller
         file_put_contents(lang_path($langCode.'/'.$request->file_name.'.php'), $phpArray);
 
         return response(['status' => 'success', __('admin.Translation is completed')]);
+
+        } catch (\Throwable $th) {
+            return response(['status' => 'error', $th->getMessage()]);
+        }
 
     }
 

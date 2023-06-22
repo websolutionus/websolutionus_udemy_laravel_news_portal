@@ -491,8 +491,7 @@
                                         <p>
                                             {!! truncate($mostViewedNews->content,100) !!}
                                         </p>
-                                        <a href="{{ route('news-details', $mostViewedNews->slug) }}" class="btn btn-outline-primary mb-4 text-capitalize"> {{__('frontend.read
-                                            more')}}</a>
+                                        <a href="{{ route('news-details', $mostViewedNews->slug) }}" class="btn btn-outline-primary mb-4 text-capitalize"> {{__('frontend.read more')}}</a>
                                     </div>
                                 </div>
                                 @endif
