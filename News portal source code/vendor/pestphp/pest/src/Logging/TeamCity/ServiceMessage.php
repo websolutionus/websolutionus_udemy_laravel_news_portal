@@ -9,7 +9,7 @@ namespace Pest\Logging\TeamCity;
  */
 final class ServiceMessage
 {
-    private static int|null $flowId = null;
+    private static ?int $flowId = null;
 
     /**
      * @param  array<string, string|int|null>  $parameters
@@ -25,14 +25,14 @@ final class ServiceMessage
         $paramsToString = '';
 
         foreach ([...$this->parameters, 'flowId' => self::$flowId] as $key => $value) {
-            $value = self::escapeServiceMessage((string) $value);
+            $value = $this->escapeServiceMessage((string) $value);
             $paramsToString .= " $key='$value'";
         }
 
         return "##teamcity[$this->type$paramsToString]";
     }
 
-    public static function testSuiteStarted(string $name, string|null $location): self
+    public static function testSuiteStarted(string $name, ?string $location): self
     {
         return new self('testSuiteStarted', [
             'name' => $name,
@@ -63,7 +63,7 @@ final class ServiceMessage
     }
 
     /**
-     * @param  int  $duration in milliseconds
+     * @param  int  $duration  in milliseconds
      */
     public static function testFinished(string $name, int $duration): self
     {
@@ -106,7 +106,7 @@ final class ServiceMessage
         ]);
     }
 
-    public static function testIgnored(string $name, string $message, string $details = null): self
+    public static function testIgnored(string $name, string $message, ?string $details = null): self
     {
         return new self('testIgnored', [
             'name' => $name,
@@ -127,7 +127,7 @@ final class ServiceMessage
         ]);
     }
 
-    private static function escapeServiceMessage(string $text): string
+    private function escapeServiceMessage(string $text): string
     {
         return str_replace(
             ['|', "'", "\n", "\r", ']', '['],

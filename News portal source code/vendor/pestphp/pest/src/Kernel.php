@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Pest;
 
+use NunoMaduro\Collision\Writer;
 use Pest\Contracts\Bootstrapper;
+use Pest\Exceptions\FatalException;
 use Pest\Exceptions\NoDirtyTestsFound;
 use Pest\Plugins\Actions\CallsAddsOutput;
 use Pest\Plugins\Actions\CallsBoot;
 use Pest\Plugins\Actions\CallsHandleArguments;
-use Pest\Plugins\Actions\CallsShutdown;
+use Pest\Plugins\Actions\CallsHandleOriginalArguments;
+use Pest\Plugins\Actions\CallsTerminable;
 use Pest\Support\Container;
+use Pest\Support\Reflection;
+use Pest\Support\View;
 use PHPUnit\TestRunner\TestResult\Facade;
 use PHPUnit\TextUI\Application;
 use PHPUnit\TextUI\Configuration\Registry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
+use Whoops\Exception\Inspector;
 
 /**
  * @internal
@@ -33,6 +40,7 @@ final class Kernel
         Bootstrappers\BootFiles::class,
         Bootstrappers\BootView::class,
         Bootstrappers\BootKernelDump::class,
+        Bootstrappers\BootExcludeList::class,
     ];
 
     /**
@@ -42,7 +50,7 @@ final class Kernel
         private readonly Application $application,
         private readonly OutputInterface $output,
     ) {
-        register_shutdown_function(fn () => $this->shutdown());
+        //
     }
 
     /**
@@ -58,6 +66,13 @@ final class Kernel
             ->add(OutputInterface::class, $output)
             ->add(Container::class, $container);
 
+        $kernel = new self(
+            new Application(),
+            $output,
+        );
+
+        register_shutdown_function(fn () => $kernel->shutdown());
+
         foreach (self::BOOTSTRAPPERS as $bootstrapper) {
             $bootstrapper = Container::getInstance()->get($bootstrapper);
             assert($bootstrapper instanceof Bootstrapper);
@@ -67,23 +82,25 @@ final class Kernel
 
         CallsBoot::execute();
 
-        return new self(
-            new Application(),
-            $output,
-        );
+        Container::getInstance()->add(self::class, $kernel);
+
+        return $kernel;
     }
 
     /**
      * Runs the application, and returns the exit code.
      *
-     * @param  array<int, string>  $args
+     * @param  array<int, string>  $originalArguments
+     * @param  array<int, string>  $arguments
      */
-    public function handle(array $args): int
+    public function handle(array $originalArguments, array $arguments): int
     {
-        $args = CallsHandleArguments::execute($args);
+        CallsHandleOriginalArguments::execute($originalArguments);
+
+        $arguments = CallsHandleArguments::execute($arguments);
 
         try {
-            $this->application->run($args);
+            $this->application->run($arguments);
         } catch (NoDirtyTestsFound) {
             $this->output->writeln([
                 '',
@@ -101,16 +118,54 @@ final class Kernel
     }
 
     /**
-     * Shutdown the Kernel.
+     * Terminate the Kernel.
      */
-    public function shutdown(): void
+    public function terminate(): void
     {
         $preBufferOutput = Container::getInstance()->get(KernelDump::class);
 
         assert($preBufferOutput instanceof KernelDump);
 
-        $preBufferOutput->shutdown();
+        $preBufferOutput->terminate();
 
-        CallsShutdown::execute();
+        CallsTerminable::execute();
+    }
+
+    /**
+     * Shutdowns unexpectedly the Kernel.
+     */
+    public function shutdown(): void
+    {
+        $this->terminate();
+
+        if (is_array($error = error_get_last())) {
+            if (! in_array($error['type'], [E_ERROR, E_CORE_ERROR], true)) {
+                return;
+            }
+
+            $message = $error['message'];
+            $file = $error['file'];
+            $line = $error['line'];
+
+            try {
+                $writer = new Writer(null, $this->output);
+
+                $throwable = new FatalException($message);
+
+                Reflection::setPropertyValue($throwable, 'line', $line);
+                Reflection::setPropertyValue($throwable, 'file', $file);
+
+                $inspector = new Inspector($throwable);
+
+                $writer->write($inspector);
+            } catch (Throwable) { // @phpstan-ignore-line
+                View::render('components.badge', [
+                    'type' => 'ERROR',
+                    'content' => sprintf('%s in %s:%d', $message, $file, $line),
+                ]);
+            }
+
+            exit(1);
+        }
     }
 }

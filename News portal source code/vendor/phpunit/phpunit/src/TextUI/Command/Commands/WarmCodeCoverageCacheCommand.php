@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\TextUI\Command;
 
+use const PHP_EOL;
 use function printf;
 use PHPUnit\TextUI\Configuration\CodeCoverageFilterRegistry;
 use PHPUnit\TextUI\Configuration\Configuration;
@@ -40,16 +41,16 @@ final class WarmCodeCoverageCacheCommand implements Command
         if (!$this->configuration->hasCoverageCacheDirectory()) {
             return Result::from(
                 'Cache for static analysis has not been configured' . PHP_EOL,
-                Result::FAILURE
+                Result::FAILURE,
             );
         }
 
-        $this->codeCoverageFilterRegistry->init($this->configuration);
+        $this->codeCoverageFilterRegistry->init($this->configuration, true);
 
         if (!$this->codeCoverageFilterRegistry->configured()) {
             return Result::from(
                 'Filter for code coverage has not been configured' . PHP_EOL,
-                Result::FAILURE
+                Result::FAILURE,
             );
         }
 
@@ -62,13 +63,13 @@ final class WarmCodeCoverageCacheCommand implements Command
             $this->configuration->coverageCacheDirectory(),
             !$this->configuration->disableCodeCoverageIgnore(),
             $this->configuration->ignoreDeprecatedCodeUnitsFromCodeCoverage(),
-            $this->codeCoverageFilterRegistry->get()
+            $this->codeCoverageFilterRegistry->get(),
         );
 
         printf(
             '[%s]%s',
             $timer->stop()->asString(),
-            \PHP_EOL
+            PHP_EOL,
         );
 
         return Result::from();

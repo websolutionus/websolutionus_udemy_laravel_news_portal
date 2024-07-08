@@ -18,11 +18,9 @@ final class ExceptionTrace
     /**
      * Ensures the given closure reports the good execution context.
      *
-     * @return mixed
-     *
      * @throws Throwable
      */
-    public static function ensure(Closure $closure)
+    public static function ensure(Closure $closure): mixed
     {
         try {
             return $closure();
@@ -32,7 +30,7 @@ final class ExceptionTrace
 
                 $message = str_replace(self::UNDEFINED_METHOD, 'Call to undefined method ', $message);
 
-                if (class_exists($class) && count(class_parents($class)) > 0 && array_values(class_parents($class))[0] === TestCase::class) {
+                if (class_exists((string) $class) && (is_countable(class_parents($class)) ? count(class_parents($class)) : 0) > 0 && array_values(class_parents($class))[0] === TestCase::class) { // @phpstan-ignore-line
                     $message .= '. Did you forget to use the [uses()] function? Read more at: https://pestphp.com/docs/configuring-tests';
                 }
 

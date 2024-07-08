@@ -2,6 +2,7 @@
 
 namespace RealRashid\SweetAlert;
 
+use Illuminate\Contracts\View\Factory as ViewFactory;
 use RealRashid\SweetAlert\Storage\SessionStore;
 
 class Toaster
@@ -15,6 +16,14 @@ class Toaster
     protected $session;
 
     /**
+     * View Factory.
+     *
+     * @var \Illuminate\Contracts\View\Factory
+     * @author Keller Martin <kellerjmrtn@gmail.com>
+     */
+    protected ViewFactory $view;
+
+    /**
      * Configuration options.
      *
      * @var array
@@ -26,12 +35,14 @@ class Toaster
      * Setting up the session
      *
      * @param SessionStore $session
+     * @param ViewFactory $view
      * @author Rashid Ali <realrashid05@gmail.com>
      */
-    public function __construct(SessionStore $session)
+    public function __construct(SessionStore $session, ViewFactory $view)
     {
         $this->setDefaultConfig();
         $this->session = $session;
+        $this->view = $view;
     }
 
     /**
@@ -52,6 +63,8 @@ class Toaster
             'padding' => config('sweetalert.padding'),
             'showConfirmButton' => config('sweetalert.show_confirm_button'),
             'showCloseButton' => config('sweetalert.show_close_button'),
+            'confirmButtonText' => __(config('sweetalert.button_text.confirm')),
+            'cancelButtonText' => __(config('sweetalert.button_text.cancel')),
             'timerProgressBar' => config('sweetalert.timer_progress_bar'),
             'customClass' => [
                 'container' => config('sweetalert.customClass.container'),
@@ -145,6 +158,10 @@ class Toaster
 
         if (array_key_exists('timer', $this->config)) {
             unset($this->config['timer']);
+        }
+
+        if (array_key_exists('showConfirmButton', $this->config)) {
+            unset($this->config['showConfirmButton']);
         }
 
 
@@ -266,6 +283,23 @@ class Toaster
 
         $this->flash();
         return $this;
+    }
+
+    /**
+     * Display an html typed alert message which is generated from a view
+     *
+     * @param string $title
+     * @param string $view
+     * @param array $data
+     * @param array $mergeData
+     * @param string $icon
+     * @author Keller Martin <kellerjmrtn@gmail.com>
+     */
+    public function view($title, $view, $data = [], $mergeData = [], $icon = '')
+    {
+        $html = $this->view->make($view, $data, $mergeData)->render();
+
+        return $this->html($title, $html, $icon);
     }
 
     /**

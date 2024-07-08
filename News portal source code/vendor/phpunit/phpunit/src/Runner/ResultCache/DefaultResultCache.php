@@ -90,9 +90,15 @@ final class DefaultResultCache implements ResultCache
             return;
         }
 
+        $contents = file_get_contents($this->cacheFilename);
+
+        if ($contents === false) {
+            return;
+        }
+
         $data = json_decode(
-            file_get_contents($this->cacheFilename),
-            true
+            $contents,
+            true,
         );
 
         if ($data === null) {
@@ -140,7 +146,7 @@ final class DefaultResultCache implements ResultCache
         file_put_contents(
             $this->cacheFilename,
             json_encode($data),
-            LOCK_EX
+            LOCK_EX,
         );
     }
 }

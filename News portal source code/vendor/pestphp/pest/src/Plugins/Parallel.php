@@ -13,10 +13,11 @@ use Pest\Plugins\Parallel\Paratest\CleanConsoleOutput;
 use Pest\Support\Arr;
 use Pest\Support\Container;
 use Pest\TestSuite;
-use function Pest\version;
 use Stringable;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+
+use function Pest\version;
 
 final class Parallel implements HandlesArguments
 {
@@ -33,7 +34,7 @@ final class Parallel implements HandlesArguments
     /**
      * @var string[]
      */
-    private const UNSUPPORTED_ARGUMENTS = ['--todos', '--retry'];
+    private const UNSUPPORTED_ARGUMENTS = ['--todo', '--todos', '--retry'];
 
     /**
      * Whether the given command line arguments indicate that the test suite should be run in parallel.
@@ -115,13 +116,13 @@ final class Parallel implements HandlesArguments
     private function runTestSuiteInParallel(array $arguments): int
     {
         $handlers = array_filter(
-            array_map(fn ($handler): object|string => Container::getInstance()->get($handler), self::HANDLERS),
-            fn ($handler): bool => $handler instanceof HandlesArguments,
+            array_map(fn (string $handler): object|string => Container::getInstance()->get($handler), self::HANDLERS),
+            fn (object|string $handler): bool => $handler instanceof HandlesArguments,
         );
 
         $filteredArguments = array_reduce(
             $handlers,
-            fn ($arguments, HandlesArguments $handler): array => $handler->handleArguments($arguments),
+            fn (array $arguments, HandlesArguments $handler): array => $handler->handleArguments($arguments),
             $arguments
         );
 
@@ -139,13 +140,13 @@ final class Parallel implements HandlesArguments
     private function runWorkerHandlers(array $arguments): array
     {
         $handlers = array_filter(
-            array_map(fn ($handler): object|string => Container::getInstance()->get($handler), self::HANDLERS),
-            fn ($handler): bool => $handler instanceof HandlersWorkerArguments,
+            array_map(fn (string $handler): object|string => Container::getInstance()->get($handler), self::HANDLERS),
+            fn (object|string $handler): bool => $handler instanceof HandlersWorkerArguments,
         );
 
         return array_reduce(
             $handlers,
-            fn ($arguments, HandlersWorkerArguments $handler): array => $handler->handleWorkerArguments($arguments),
+            fn (array $arguments, HandlersWorkerArguments $handler): array => $handler->handleWorkerArguments($arguments),
             $arguments
         );
     }

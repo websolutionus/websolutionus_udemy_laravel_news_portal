@@ -36,18 +36,19 @@ declare(strict_types=1);
 
 namespace PHPUnit\Runner;
 
-use function array_diff;
-use function array_values;
-use function basename;
-use function class_exists;
 use Exception;
-use function get_declared_classes;
 use Pest\Contracts\HasPrintableTestCaseName;
 use Pest\TestCases\IgnorableTestCase;
 use Pest\TestSuite;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
+
+use function array_diff;
+use function array_values;
+use function basename;
+use function class_exists;
+use function get_declared_classes;
 use function substr;
 
 /**
@@ -59,6 +60,11 @@ final class TestSuiteLoader
      * @psalm-var list<class-string>
      */
     private static array $loadedClasses = [];
+
+    /**
+     * @psalm-var array<string, array<class-string>>
+     */
+    private static array $loadedClassesByFilename = [];
 
     /**
      * @psalm-var list<class-string>
@@ -97,6 +103,17 @@ final class TestSuiteLoader
 
         self::$loadedClasses = array_merge($loadedClasses, self::$loadedClasses);
 
+        foreach ($loadedClasses as $loadedClass) {
+            $reflection = new ReflectionClass($loadedClass);
+            $filename = $reflection->getFileName();
+            self::$loadedClassesByFilename[$filename] = [
+                $loadedClass,
+                ...self::$loadedClassesByFilename[$filename] ?? [],
+            ];
+        }
+
+        $loadedClasses = array_merge(self::$loadedClassesByFilename[$suiteClassFile] ?? [], $loadedClasses);
+
         if (empty($loadedClasses)) {
             return $this->exceptionFor($suiteClassName, $suiteClassFile);
         }
@@ -115,7 +132,7 @@ final class TestSuiteLoader
                     continue;
                 }
 
-                if ($class->isAbstract() || ($class->getFileName() !== $suiteClassFile)) {
+                if ($class->isAbstract() || ($suiteClassFile !== $class->getFileName())) {
                     if (! str_contains($class->getFileName(), 'TestCaseFactory.php')) {
                         continue;
                     }

@@ -15,6 +15,8 @@ use PHPUnit\Event\Telemetry;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @deprecated
  */
 final class AssertionSucceeded implements Event
 {
@@ -60,7 +62,7 @@ final class AssertionSucceeded implements Event
         if (!empty($this->message)) {
             $message = sprintf(
                 ', Message: %s',
-                $this->message
+                $this->message,
             );
         }
 
@@ -68,7 +70,7 @@ final class AssertionSucceeded implements Event
             'Assertion Succeeded (Constraint: %s, Value: %s%s)',
             $this->constraint,
             $this->value,
-            $message
+            $message,
         );
     }
 }

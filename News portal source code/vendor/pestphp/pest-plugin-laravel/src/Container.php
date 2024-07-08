@@ -27,7 +27,7 @@ function instance(string $abstract, object $instance): object
 /**
  * Mock an instance of an object in the container.
  */
-function mock(string $abstract, Closure $mock = null): MockInterface
+function mock(string $abstract, ?Closure $mock = null): MockInterface
 {
     return test()->mock(...func_get_args());
 }
@@ -35,7 +35,7 @@ function mock(string $abstract, Closure $mock = null): MockInterface
 /**
  * Mock a partial instance of an object in the container.
  */
-function partialMock(string $abstract, Closure $mock = null): MockInterface
+function partialMock(string $abstract, ?Closure $mock = null): MockInterface
 {
     return test()->partialMock(...func_get_args());
 }
@@ -43,9 +43,19 @@ function partialMock(string $abstract, Closure $mock = null): MockInterface
 /**
  * Spy an instance of an object in the container.
  */
-function spy(string $abstract, Closure $mock = null): MockInterface
+function spy(string $abstract, ?Closure $mock = null): MockInterface
 {
     return test()->spy(...func_get_args());
+}
+
+/**
+ * Instruct the container to forget a previously mocked / spied instance of an object.
+ *
+ * @return TestCase
+ */
+function forgetMock(string $abstract)
+{
+    return test()->forgetMock(...func_get_args());
 }
 
 /**

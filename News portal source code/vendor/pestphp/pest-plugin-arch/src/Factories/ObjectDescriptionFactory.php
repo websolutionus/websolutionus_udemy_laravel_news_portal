@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Pest\Arch\Factories;
 
+use Pest\Arch\Objects\ObjectDescription;
 use Pest\Arch\Objects\VendorObjectDescription;
+use Pest\Arch\Support\PhpCoreExpressions;
 use PHPUnit\Architecture\Asserts\Dependencies\Elements\ObjectUses;
-use PHPUnit\Architecture\Elements\ObjectDescription;
 use PHPUnit\Architecture\Services\ServiceContainer;
 use ReflectionClass;
 use ReflectionFunction;
@@ -24,7 +25,7 @@ final class ObjectDescriptionFactory
     /**
      * Makes a new Object Description instance, is possible.
      */
-    public static function make(string $filename): ObjectDescription|null
+    public static function make(string $filename, bool $onlyUserDefinedUses = true): ?\PHPUnit\Architecture\Elements\ObjectDescription
     {
         self::ensureServiceContainerIsInitialized();
 
@@ -36,7 +37,8 @@ final class ObjectDescriptionFactory
         try {
             $object = $isFromVendor
                 ? VendorObjectDescription::make($filename)
-                : ServiceContainer::$descriptionClass::make($filename);
+                : ObjectDescription::make($filename);
+
         } finally {
             error_reporting($originalErrorReportingLevel);
         }
@@ -49,7 +51,7 @@ final class ObjectDescriptionFactory
             $object->uses = new ObjectUses(array_values(
                 array_filter(
                     iterator_to_array($object->uses->getIterator()),
-                    static fn (string $use): bool => self::isUserDefined($use) && ! self::isSameLayer($object, $use),
+                    static fn (string $use): bool => (! $onlyUserDefinedUses || self::isUserDefined($use)) && ! self::isSameLayer($object, $use),
                 )
             ));
         }
@@ -74,6 +76,10 @@ final class ObjectDescriptionFactory
      */
     private static function isUserDefined(string $use): bool
     {
+        if (PhpCoreExpressions::getClass($use) !== null) {
+            return false;
+        }
+
         return match (true) {
             enum_exists($use) => (new \ReflectionEnum($use))->isUserDefined(),
             function_exists($use) => (new ReflectionFunction($use))->isUserDefined(),
@@ -88,7 +94,7 @@ final class ObjectDescriptionFactory
     /**
      * Checks if the given use is in the same layer as the given object.
      */
-    private static function isSameLayer(ObjectDescription $object, string $use): bool
+    private static function isSameLayer(\PHPUnit\Architecture\Elements\ObjectDescription $object, string $use): bool
     {
         return $use === 'self'
             || $use === 'static'

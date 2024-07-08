@@ -28,6 +28,36 @@ function withHeader(string $name, string $value)
 }
 
 /**
+ *  Add an authorization token for the request.
+ *
+ * @return TestCase
+ */
+function withToken(string $token, string $type = 'Bearer')
+{
+    return test()->withToken(...func_get_args());
+}
+
+/**
+ * Add a basic authentication header to the request with the given credentials.
+ *
+ * @return TestCase
+ */
+function withBasicAuth(string $username, string $password)
+{
+    return test()->withBasicAuth(...func_get_args());
+}
+
+/**
+ *  Remove the authorization token from the request.
+ *
+ * @return TestCase
+ */
+function withoutToken()
+{
+    return test()->withoutToken();
+}
+
+/**
  * Flush all the configured headers.
  *
  * @return TestCase
@@ -117,6 +147,16 @@ function withUnencryptedCookie(string $name, string $value)
 function followingRedirects()
 {
     return test()->followingRedirects(...func_get_args());
+}
+
+/**
+ * Include cookies and authorization headers for JSON requests.
+ *
+ * @return TestCase
+ */
+function withCredentials()
+{
+    return test()->withCredentials(...func_get_args());
 }
 
 /**
@@ -260,6 +300,16 @@ function optionsJson(string $uri, array $data = [], array $headers = [])
 }
 
 /**
+ * Visit the given URI with a HEAD request.
+ *
+ * @return TestResponse
+ */
+function head(string $uri, array $headers = [])
+{
+    return test()->head(...func_get_args());
+}
+
+/**
  * Call the given URI with a JSON request.
  *
  * @return TestResponse
@@ -272,16 +322,9 @@ function json(string $method, string $uri, array $data = [], array $headers = []
 /**
  * Call the given URI and return the Response.
  *
- * @param  string  $method
- * @param  string  $uri
- * @param  array  $parameters
- * @param  array  $cookies
- * @param  array  $files
- * @param  array  $server
- * @param  string|null  $content
  * @return TestResponse
  */
-function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
+function call(string $method, string $uri, array $parameters = [], array $cookies = [], array $files = [], array $server = [], ?string $content = null)
 {
     return test()->call(...func_get_args());
 }

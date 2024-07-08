@@ -54,6 +54,10 @@ For Laravel apps, head over to [laravel-ignition](https://github.com/spatie/lara
 
 For Symfony apps, go to [symfony-ignition-bundle](https://github.com/spatie/symfony-ignition-bundle).
 
+For Drupal 10+ websites, use the [Ignition module](https://www.drupal.org/project/ignition).
+
+For OpenMage websites, use the [Ignition module](https://github.com/empiricompany/openmage_ignition).
+
 For all other PHP projects, install the package via composer:
 
 ```bash
@@ -414,6 +418,7 @@ Here are the steps you'll need to perform if you want to work on the UI of Ignit
     - run `composer update`
     - run `cp .env.example .env`
     - run `php artisan key:generate`
+- run `yarn dev` in both the `ignition` and `ignition-ui` project
 - http://ignition-test.test/ should now work (= show the new UI). If you use valet, you might want to run `valet park` inside the `~/code/flare` directory.
     - http://ignition-test.test/ has a bit of everything
     - http://ignition-test.test/sql-error has a solution and SQL exception

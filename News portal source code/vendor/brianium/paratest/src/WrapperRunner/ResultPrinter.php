@@ -27,7 +27,6 @@ use function fread;
 use function fseek;
 use function ftell;
 use function fwrite;
-use function preg_replace;
 use function sprintf;
 use function str_repeat;
 use function strlen;
@@ -41,12 +40,12 @@ final class ResultPrinter
 {
     public readonly Printer $printer;
 
-    private int $numTestsWidth   = 0;
-    private int $maxColumn       = 0;
-    private int $totalCases      = 0;
-    private int $column          = 0;
-    private int $casesProcessed  = 0;
-    private int $numberOfColumns = 80;
+    private int $numTestsWidth  = 0;
+    private int $maxColumn      = 0;
+    private int $totalCases     = 0;
+    private int $column         = 0;
+    private int $casesProcessed = 0;
+    private int $numberOfColumns;
     /** @var resource|null */
     private $teamcityLogFileHandle;
     /** @var array<non-empty-string, int> */
@@ -71,6 +70,8 @@ final class ResultPrinter
             {
             }
         };
+
+        $this->numberOfColumns = $this->options->configuration->columns();
 
         if (! $this->options->configuration->hasLogfileTeamcity()) {
             return;
@@ -129,8 +130,11 @@ final class ResultPrinter
     }
 
     /** @param list<SplFileInfo> $teamcityFiles */
-    public function printFeedback(SplFileInfo $progressFile, array $teamcityFiles): void
-    {
+    public function printFeedback(
+        SplFileInfo $progressFile,
+        SplFileInfo $outputFile,
+        array $teamcityFiles
+    ): void {
         if ($this->options->needsTeamcity) {
             $teamcityProgress = $this->tailMultiple($teamcityFiles);
 
@@ -150,13 +154,15 @@ final class ResultPrinter
             return;
         }
 
+        $unexpectedOutput = $this->tail($outputFile);
+        if ($unexpectedOutput !== '') {
+            $this->output->write($unexpectedOutput);
+        }
+
         $feedbackItems = $this->tail($progressFile);
         if ($feedbackItems === '') {
             return;
         }
-
-        $feedbackItems = preg_replace('/ +\\d+ \\/ \\d+ \\( *\\d+%\\)\\s*/', '', $feedbackItems);
-        assert($feedbackItems !== null);
 
         $actualTestCount = strlen($feedbackItems);
         for ($index = 0; $index < $actualTestCount; ++$index) {
@@ -188,13 +194,9 @@ final class ResultPrinter
             return;
         }
 
-        if ($this->options->configuration->outputIsTestDox()) {
-            $this->output->write($this->tailMultiple($testdoxFiles));
+        $this->printer->print(PHP_EOL . (new ResourceUsageFormatter())->resourceUsageSinceStartOfRequest() . PHP_EOL . PHP_EOL);
 
-            return;
-        }
-
-        $resultPrinter  = new DefaultResultPrinter(
+        $defaultResultPrinter = new DefaultResultPrinter(
             $this->printer,
             true,
             true,
@@ -210,15 +212,34 @@ final class ResultPrinter
             $this->options->configuration->displayDetailsOnTestsThatTriggerWarnings(),
             false,
         );
-        $summaryPrinter = new SummaryPrinter(
+
+        if ($this->options->configuration->outputIsTestDox()) {
+            $this->output->write($this->tailMultiple($testdoxFiles));
+
+            $defaultResultPrinter = new DefaultResultPrinter(
+                $this->printer,
+                true,
+                true,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+            );
+        }
+
+        $defaultResultPrinter->print($testResult);
+
+        (new SummaryPrinter(
             $this->printer,
             $this->options->configuration->colors(),
-        );
-
-        $this->printer->print(PHP_EOL . (new ResourceUsageFormatter())->resourceUsageSinceStartOfRequest() . PHP_EOL . PHP_EOL);
-
-        $resultPrinter->print($testResult);
-        $summaryPrinter->print($testResult);
+        ))->print($testResult);
     }
 
     private function printFeedbackItem(string $item): void
@@ -249,7 +270,7 @@ final class ResultPrinter
             'F' => $this->colorizeTextBox('bg-red, fg-white', $item),
             'I', 'N', 'D', 'R', 'W' => $this->colorizeTextBox('fg-yellow, bold', $item),
             'S' => $this->colorizeTextBox('fg-cyan, bold', $item),
-            default => $item,
+            '.' => $item,
         };
         $this->output->write($buffer);
     }

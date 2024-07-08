@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pest;
 
+use NunoMaduro\Collision\Adapters\Phpunit\Support\ResultReflection;
 use PHPUnit\TestRunner\TestResult\TestResult;
 use PHPUnit\TextUI\Configuration\Configuration;
 
@@ -39,15 +40,13 @@ final class Result
      */
     public static function exitCode(Configuration $configuration, TestResult $result): int
     {
-        $returnCode = self::FAILURE_EXIT;
-
         if ($result->wasSuccessfulIgnoringPhpunitWarnings()
             && ! $result->hasTestTriggeredPhpunitWarningEvents()) {
-            $returnCode = self::SUCCESS_EXIT;
+            return self::SUCCESS_EXIT;
         }
 
-        if ($configuration->failOnEmptyTestSuite() && $result->numberOfTests() === 0) {
-            $returnCode = self::FAILURE_EXIT;
+        if ($configuration->failOnEmptyTestSuite() && ResultReflection::numberOfTests($result) === 0) {
+            return self::FAILURE_EXIT;
         }
 
         if ($result->wasSuccessfulIgnoringPhpunitWarnings()) {
@@ -56,8 +55,8 @@ final class Result
             }
 
             $warnings = $result->numberOfTestsWithTestTriggeredPhpunitWarningEvents()
-                + $result->numberOfTestsWithTestTriggeredWarningEvents()
-                + $result->numberOfTestsWithTestTriggeredPhpWarningEvents();
+                + count($result->warnings())
+                + count($result->phpWarnings());
 
             if ($configuration->failOnWarning() && $warnings > 0) {
                 $returnCode = self::FAILURE_EXIT;
@@ -76,6 +75,6 @@ final class Result
             return self::EXCEPTION_EXIT;
         }
 
-        return $returnCode;
+        return self::FAILURE_EXIT;
     }
 }

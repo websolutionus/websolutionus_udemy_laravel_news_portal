@@ -24,17 +24,13 @@ final class Registry
         return self::$instance ?? self::$instance = self::build();
     }
 
-    private function __construct()
-    {
-    }
-
     private static function build(): Parser
     {
         return new CachingParser(
             new ParserChain(
                 new AttributeParser,
-                new AnnotationParser
-            )
+                new AnnotationParser,
+            ),
         );
     }
 }

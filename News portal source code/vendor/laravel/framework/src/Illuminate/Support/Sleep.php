@@ -2,7 +2,6 @@
 
 namespace Illuminate\Support;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DateInterval;
 use Illuminate\Support\Traits\Macroable;
@@ -12,6 +11,20 @@ use RuntimeException;
 class Sleep
 {
     use Macroable;
+
+    /**
+     * The fake sleep callbacks.
+     *
+     * @var array
+     */
+    public static $fakeSleepCallbacks = [];
+
+    /**
+     * Keep Carbon's "now" in sync when sleeping.
+     *
+     * @var bool
+     */
+    protected static $syncWithCarbon = false;
 
     /**
      * The total duration to sleep.
@@ -73,13 +86,13 @@ class Sleep
     /**
      * Sleep until the given timestamp.
      *
-     * @param  \DateTimeInterface|int  $timestamp
+     * @param  \DateTimeInterface|int|float|numeric-string  $timestamp
      * @return static
      */
     public static function until($timestamp)
     {
-        if (is_int($timestamp)) {
-            $timestamp = Carbon::createFromTimestamp($timestamp);
+        if (is_numeric($timestamp)) {
+            $timestamp = Carbon::createFromTimestamp($timestamp, date_default_timezone_get());
         }
 
         return new static(Carbon::now()->diff($timestamp));
@@ -252,6 +265,14 @@ class Sleep
         if (static::$fake) {
             static::$sequence[] = $this->duration;
 
+            if (static::$syncWithCarbon) {
+                Carbon::setTestNow(Carbon::now()->add($this->duration));
+            }
+
+            foreach (static::$fakeSleepCallbacks as $callback) {
+                $callback($this->duration);
+            }
+
             return;
         }
 
@@ -298,13 +319,16 @@ class Sleep
      * Stay awake and capture any attempts to sleep.
      *
      * @param  bool  $value
+     * @param  bool  $syncWithCarbon
      * @return void
      */
-    public static function fake($value = true)
+    public static function fake($value = true, $syncWithCarbon = false)
     {
         static::$fake = $value;
 
         static::$sequence = [];
+        static::$fakeSleepCallbacks = [];
+        static::$syncWithCarbon = $syncWithCarbon;
     }
 
     /**
@@ -391,7 +415,7 @@ class Sleep
         }
 
         foreach (static::$sequence as $duration) {
-            PHPUnit::assertSame(0, $duration->totalMicroseconds, vsprintf('Unexpected sleep duration of [%s] found.', [
+            PHPUnit::assertSame(0, (int) $duration->totalMicroseconds, vsprintf('Unexpected sleep duration of [%s] found.', [
                 $duration->cascade()->forHumans([
                     'options' => 0,
                     'minimumUnit' => 'microsecond',
@@ -410,5 +434,50 @@ class Sleep
         $this->shouldSleep = false;
 
         return $this;
+    }
+
+    /**
+     * Only sleep when the given condition is true.
+     *
+     * @param  (\Closure($this): bool)|bool  $condition
+     * @return $this
+     */
+    public function when($condition)
+    {
+        $this->shouldSleep = (bool) value($condition, $this);
+
+        return $this;
+    }
+
+    /**
+     * Don't sleep when the given condition is true.
+     *
+     * @param  (\Closure($this): bool)|bool  $condition
+     * @return $this
+     */
+    public function unless($condition)
+    {
+        return $this->when(! value($condition, $this));
+    }
+
+    /**
+     * Specify a callback that should be invoked when faking sleep within a test.
+     *
+     * @param  callable  $callback
+     * @return void
+     */
+    public static function whenFakingSleep($callback)
+    {
+        static::$fakeSleepCallbacks[] = $callback;
+    }
+
+    /**
+     * Indicate that Carbon's "now" should be kept in sync when sleeping.
+     *
+     * @return void
+     */
+    public static function syncWithCarbon($value = true)
+    {
+        static::$syncWithCarbon = $value;
     }
 }

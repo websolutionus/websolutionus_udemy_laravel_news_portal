@@ -3,7 +3,6 @@
 namespace Illuminate\Process;
 
 use Illuminate\Contracts\Process\InvokedProcess as InvokedProcessContract;
-use Symfony\Component\Process\Process;
 
 class FakeInvokedProcess implements InvokedProcessContract
 {
@@ -227,7 +226,7 @@ class FakeInvokedProcess implements InvokedProcessContract
             $this->nextOutputIndex = $i + 1;
         }
 
-        return isset($output) ? $output : '';
+        return $output ?? '';
     }
 
     /**
@@ -250,7 +249,7 @@ class FakeInvokedProcess implements InvokedProcessContract
             $this->nextErrorOutputIndex = $i + 1;
         }
 
-        return isset($output) ? $output : '';
+        return $output ?? '';
     }
 
     /**
@@ -259,7 +258,7 @@ class FakeInvokedProcess implements InvokedProcessContract
      * @param  callable|null  $output
      * @return \Illuminate\Contracts\Process\ProcessResult
      */
-    public function wait(callable $output = null)
+    public function wait(?callable $output = null)
     {
         $this->outputHandler = $output ?: $this->outputHandler;
 
@@ -279,7 +278,7 @@ class FakeInvokedProcess implements InvokedProcessContract
     }
 
     /**
-     * Get the ultimate process result that wil be returned by this "process".
+     * Get the ultimate process result that will be returned by this "process".
      *
      * @return \Illuminate\Contracts\Process\ProcessResult
      */
@@ -291,7 +290,7 @@ class FakeInvokedProcess implements InvokedProcessContract
     /**
      * Set the general output handler for the fake invoked process.
      *
-     * @param  callable|null  $output
+     * @param  callable|null  $outputHandler
      * @return $this
      */
     public function withOutputHandler(?callable $outputHandler)

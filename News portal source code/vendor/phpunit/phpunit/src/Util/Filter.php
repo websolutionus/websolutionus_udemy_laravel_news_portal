@@ -28,7 +28,7 @@ final class Filter
     /**
      * @throws Exception
      */
-    public static function getFilteredStacktrace(Throwable $t): string
+    public static function getFilteredStacktrace(Throwable $t, bool $unwrap = true): string
     {
         $filteredStacktrace = '';
 
@@ -41,7 +41,7 @@ final class Filter
             $eFile  = $t->getFile();
             $eLine  = $t->getLine();
         } else {
-            if ($t->getPrevious()) {
+            if ($unwrap && $t->getPrevious()) {
                 $t = $t->getPrevious();
             }
 
@@ -53,7 +53,7 @@ final class Filter
         if (!self::frameExists($eTrace, $eFile, $eLine)) {
             array_unshift(
                 $eTrace,
-                ['file' => $eFile, 'line' => $eLine]
+                ['file' => $eFile, 'line' => $eLine],
             );
         }
 
@@ -65,7 +65,7 @@ final class Filter
                 $filteredStacktrace .= sprintf(
                     "%s:%s\n",
                     $frame['file'],
-                    $frame['line'] ?? '?'
+                    $frame['line'] ?? '?',
                 );
             }
         }
@@ -73,7 +73,7 @@ final class Filter
         return $filteredStacktrace;
     }
 
-    private static function shouldPrintFrame(array $frame, string|false $prefix, ExcludeList $excludeList): bool
+    private static function shouldPrintFrame(array $frame, false|string $prefix, ExcludeList $excludeList): bool
     {
         if (!isset($frame['file'])) {
             return false;
@@ -89,10 +89,10 @@ final class Filter
             $script = '';
         }
 
-        return is_file($file) &&
+        return $fileIsNotPrefixed &&
+               $file !== $script &&
                self::fileIsExcluded($file, $excludeList) &&
-               $fileIsNotPrefixed &&
-               $file !== $script;
+               is_file($file);
     }
 
     private static function fileIsExcluded(string $file, ExcludeList $excludeList): bool

@@ -36,7 +36,7 @@ class DumpCommand extends Command
      *
      * @param  \Illuminate\Database\ConnectionResolverInterface  $connections
      * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
-     * @return int
+     * @return void
      */
     public function handle(ConnectionResolverInterface $connections, Dispatcher $dispatcher)
     {
@@ -69,8 +69,12 @@ class DumpCommand extends Command
      */
     protected function schemaState(Connection $connection)
     {
+        $migrations = Config::get('database.migrations', 'migrations');
+
+        $migrationTable = is_array($migrations) ? ($migrations['table'] ?? 'migrations') : $migrations;
+
         return $connection->getSchemaState()
-                ->withMigrationTable($connection->getTablePrefix().Config::get('database.migrations', 'migrations'))
+                ->withMigrationTable($connection->getTablePrefix().$migrationTable)
                 ->handleOutputUsing(function ($type, $buffer) {
                     $this->output->write($buffer);
                 });

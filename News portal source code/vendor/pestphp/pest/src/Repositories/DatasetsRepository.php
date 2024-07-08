@@ -10,8 +10,9 @@ use Pest\Exceptions\DatasetAlreadyExists;
 use Pest\Exceptions\DatasetDoesNotExist;
 use Pest\Exceptions\ShouldNotHappen;
 use Pest\Support\Exporter;
-use function sprintf;
 use Traversable;
+
+use function sprintf;
 
 /**
  * @internal
@@ -66,11 +67,11 @@ final class DatasetsRepository
     }
 
     /**
-     * @return Closure|array<int|string, mixed>|never
+     * @return Closure|array<int|string, mixed>
      *
      * @throws ShouldNotHappen
      */
-    public static function get(string $filename, string $description)
+    public static function get(string $filename, string $description): Closure|array
     {
         $dataset = self::$withs[$filename.self::SEPARATOR.$description];
 
@@ -89,7 +90,7 @@ final class DatasetsRepository
      * @param  array<Closure|iterable<int|string, mixed>|string>  $dataset
      * @return array<string, mixed>|null
      */
-    public static function resolve(array $dataset, string $currentTestFile): array|null
+    public static function resolve(array $dataset, string $currentTestFile): ?array
     {
         if ($dataset === []) {
             return null;
@@ -138,7 +139,7 @@ final class DatasetsRepository
 
     /**
      * @param  array<Closure|iterable<int|string, mixed>|string>  $datasets
-     * @return array<array<mixed>>
+     * @return array<int, array<int, mixed>>
      */
     private static function processDatasets(array $datasets, string $currentTestFile): array
     {
@@ -193,7 +194,7 @@ final class DatasetsRepository
 
         $closestScopeDatasetKey = array_reduce(
             array_keys($matchingDatasets),
-            fn ($keyA, $keyB) => $keyA !== null && strlen((string) $keyA) > strlen($keyB) ? $keyA : $keyB
+            fn (string|int|null $keyA, string|int|null $keyB): string|int|null => $keyA !== null && strlen((string) $keyA) > strlen((string) $keyB) ? $keyA : $keyB
         );
 
         if ($closestScopeDatasetKey === null) {

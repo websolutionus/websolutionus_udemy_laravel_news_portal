@@ -36,7 +36,7 @@ class Pool
      * @param  \Illuminate\Http\Client\Factory|null  $factory
      * @return void
      */
-    public function __construct(Factory $factory = null)
+    public function __construct(?Factory $factory = null)
     {
         $this->factory = $factory ?: new Factory();
         $this->handler = Utils::chooseHandler();
@@ -78,7 +78,7 @@ class Pool
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \Illuminate\Http\Client\PendingRequest
+     * @return \Illuminate\Http\Client\PendingRequest|\GuzzleHttp\Promise\Promise
      */
     public function __call($method, $parameters)
     {

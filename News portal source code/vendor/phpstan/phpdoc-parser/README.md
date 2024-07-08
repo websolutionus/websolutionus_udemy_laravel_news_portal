@@ -15,6 +15,8 @@ For the complete list of supported PHPDoc features check out PHPStan documentati
 * [PHPDoc Types](https://phpstan.org/writing-php-code/phpdoc-types) (list of PHPDoc types)
 * [phpdoc-parser API Reference](https://phpstan.github.io/phpdoc-parser/namespace-PHPStan.PhpDocParser.html) with all the AST node types etc.
 
+This parser also supports parsing [Doctrine Annotations](https://github.com/doctrine/annotations). The AST nodes live in the [PHPStan\PhpDocParser\Ast\PhpDoc\Doctrine namespace](https://phpstan.github.io/phpdoc-parser/namespace-PHPStan.PhpDocParser.Ast.PhpDoc.Doctrine.html). The support needs to be turned on by setting `bool $parseDoctrineAnnotations` to `true` in `Lexer` and `PhpDocParser` class constructors.
+
 ## Installation
 
 ```
@@ -91,12 +93,13 @@ $phpDocNode = $phpDocParser->parse($tokens); // PhpDocNode
 $cloningTraverser = new NodeTraverser([new CloningVisitor()]);
 
 /** @var PhpDocNode $newPhpDocNode */
-$printer = new Printer();
 [$newPhpDocNode] = $cloningTraverser->traverse([$phpDocNode]);
 
 // change something in $newPhpDocNode
 $newPhpDocNode->getParamTagValues()[0]->type = new IdentifierTypeNode('Ipsum');
 
+// print changed PHPDoc
+$printer = new Printer();
 $newPhpDoc = $printer->printFormatPreserving($newPhpDocNode, $phpDocNode, $tokens);
 echo $newPhpDoc; // '/** @param Ipsum $a */'
 ```

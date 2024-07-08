@@ -22,40 +22,50 @@ final class TestCaseMethodFactory
     use HigherOrderable;
 
     /**
-     * Determines if the Test Case Method is a "todo".
+     * The test's describing, if any.
+     */
+    public ?string $describing = null;
+
+    /**
+     * The test's number of repetitions.
+     */
+    public int $repetitions = 1;
+
+    /**
+     * Determines if the test is a "todo".
      */
     public bool $todo = false;
 
     /**
-     * The Test Case Dataset, if any.
+     * The test's datasets.
      *
      * @var array<Closure|iterable<int|string, mixed>|string>
      */
     public array $datasets = [];
 
     /**
-     * The Test Case depends, if any.
+     * The test's dependencies.
      *
      * @var array<int, string>
      */
     public array $depends = [];
 
     /**
-     * The Test Case groups, if any.
+     * The test's groups.
      *
      * @var array<int, string>
      */
     public array $groups = [];
 
     /**
-     * The covered classes and functions, if any.
+     * The covered classes and functions.
      *
      * @var array<int, \Pest\Factories\Covers\CoversClass|\Pest\Factories\Covers\CoversFunction|\Pest\Factories\Covers\CoversNothing>
      */
     public array $covers = [];
 
     /**
-     * Creates a new Factory instance.
+     * Creates a new test case method factory instance.
      */
     public function __construct(
         public string $filename,
@@ -63,14 +73,14 @@ final class TestCaseMethodFactory
         public ?Closure $closure,
     ) {
         $this->closure ??= function (): void {
-            Assert::getCount() > 0 ?: self::markTestIncomplete(); // @phpstan-ignore-line
+            (Assert::getCount() > 0 || $this->doesNotPerformAssertions()) ?: self::markTestIncomplete(); // @phpstan-ignore-line
         };
 
         $this->bootHigherOrderable();
     }
 
     /**
-     * Makes the Test Case classes.
+     * Creates the test's closure.
      */
     public function getClosure(TestCase $concrete): Closure
     {
@@ -135,18 +145,18 @@ final class TestCaseMethodFactory
             $attributes = (new $attribute())->__invoke($this, $attributes);
         }
 
-        if ($this->datasets !== []) {
+        if ($this->datasets !== [] || $this->repetitions > 1) {
             $dataProviderName = $methodName.'_dataset';
             $annotations[] = "@dataProvider $dataProviderName";
             $datasetsCode = $this->buildDatasetForEvaluation($methodName, $dataProviderName);
         }
 
         $annotations = implode('', array_map(
-            static fn ($annotation): string => sprintf("\n     * %s", $annotation), $annotations,
+            static fn (string $annotation): string => sprintf("\n     * %s", $annotation), $annotations,
         ));
 
         $attributes = implode('', array_map(
-            static fn ($attribute): string => sprintf("\n        %s", $attribute), $attributes,
+            static fn (string $attribute): string => sprintf("\n        %s", $attribute), $attributes,
         ));
 
         return <<<PHP
@@ -172,7 +182,13 @@ final class TestCaseMethodFactory
      */
     private function buildDatasetForEvaluation(string $methodName, string $dataProviderName): string
     {
-        DatasetsRepository::with($this->filename, $methodName, $this->datasets);
+        $datasets = $this->datasets;
+
+        if ($this->repetitions > 1) {
+            $datasets = [range(1, $this->repetitions), ...$datasets];
+        }
+
+        DatasetsRepository::with($this->filename, $methodName, $datasets);
 
         return <<<EOF
 

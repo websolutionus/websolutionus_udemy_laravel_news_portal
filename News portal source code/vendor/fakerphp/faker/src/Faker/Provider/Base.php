@@ -179,8 +179,10 @@ class Base
     /**
      * Returns randomly ordered subsequence of $count elements from a provided array
      *
+     * @todo update default $count to `null` (BC) for next major version
+     *
      * @param array|class-string|\Traversable $array           Array to take elements from. Defaults to a-c
-     * @param int                             $count           Number of elements to take.
+     * @param int|null                        $count           Number of elements to take. If `null` then returns random number of elements
      * @param bool                            $allowDuplicates Allow elements to be picked several times. Defaults to false
      *
      * @throws \InvalidArgumentException
@@ -211,12 +213,16 @@ class Base
 
         $numberOfElements = count($elements);
 
-        if (!$allowDuplicates && $numberOfElements < $count) {
+        if (!$allowDuplicates && null !== $count && $numberOfElements < $count) {
             throw new \LengthException(sprintf(
                 'Cannot get %d elements, only %d in array',
                 $count,
                 $numberOfElements,
             ));
+        }
+
+        if (null === $count) {
+            $count = mt_rand(1, $numberOfElements);
         }
 
         $randomElements = [];
@@ -485,7 +491,7 @@ class Base
     public static function bothify($string = '## ??')
     {
         $string = self::replaceWildcard($string, '*', static function () {
-            return mt_rand(0, 1) ? '#' : '?';
+            return mt_rand(0, 1) === 1 ? '#' : '?';
         });
 
         return static::lexify(static::numerify($string));
@@ -570,6 +576,7 @@ class Base
             // remove backslashes (that are not followed by another backslash) because they are escape characters
             $match = preg_replace('/\\\(?!\\\)/', '', $matches[1]);
             $randomElement = Base::randomElement(str_split($match));
+
             //[.] should not be a random character, but a literal .
             return str_replace('.', '\.', $randomElement);
         }, $regex);

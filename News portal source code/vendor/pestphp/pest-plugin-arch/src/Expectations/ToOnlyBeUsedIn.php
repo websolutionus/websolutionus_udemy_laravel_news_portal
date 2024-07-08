@@ -41,8 +41,8 @@ final class ToOnlyBeUsedIn
                 static function (LayerOptions $options) use ($blueprint): void {
                     $blueprint->expectToOnlyBeUsedIn(
                         $options,
-                        static function (string $value, string $notAllowedDependOn, Violation|null $violation): void {
-                            if (! $violation instanceof \Pest\Arch\ValueObjects\Violation) {
+                        static function (string $value, string $notAllowedDependOn, ?Violation $violation): void {
+                            if (! $violation instanceof Violation) {
                                 throw new ExpectationFailedException(
                                     "Expecting '$value' not to be used on '$notAllowedDependOn'.",
                                 );
@@ -53,7 +53,6 @@ final class ToOnlyBeUsedIn
                     );
                 },
             ),
-            ToBeUsedIn::make($expectation, $targets),
         ]);
     }
 }

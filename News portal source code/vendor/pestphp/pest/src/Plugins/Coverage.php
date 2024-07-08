@@ -50,7 +50,7 @@ final class Coverage implements AddsOutput, HandlesArguments
      */
     public function handleArguments(array $originals): array
     {
-        $arguments = [...[''], ...array_values(array_filter($originals, function ($original): bool {
+        $arguments = [...[''], ...array_values(array_filter($originals, function (string $original): bool {
             foreach ([self::COVERAGE_OPTION, self::MIN_OPTION] as $option) {
                 if ($original === sprintf('--%s', $option)) {
                     return true;
@@ -128,9 +128,9 @@ final class Coverage implements AddsOutput, HandlesArguments
 
             if ($exitCode === 1) {
                 $this->output->writeln(sprintf(
-                    "\n  <fg=white;bg=red;options=bold> FAIL </> Code coverage below expected:<fg=red;options=bold> %s %%</>. Minimum:<fg=white;options=bold> %s %%</>.",
-                    number_format($coverage, 1),
-                    number_format($this->coverageMin, 1)
+                    "\n  <fg=white;bg=red;options=bold> FAIL </> Code coverage below expected <fg=white;options=bold> %s %%</>, currently <fg=red;options=bold> %s %%</>.",
+                    number_format($this->coverageMin, 1),
+                    number_format($coverage, 1)
                 ));
             }
 

@@ -7,11 +7,12 @@ namespace Pest\Bootstrappers;
 use Pest\Contracts\Bootstrapper;
 use Pest\Support\DatasetInfo;
 use Pest\Support\Str;
-use function Pest\testDirectory;
 use Pest\TestSuite;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SebastianBergmann\FileIterator\Facade as PhpUnitFileIterator;
+
+use function Pest\testDirectory;
 
 /**
  * @internal
@@ -77,6 +78,8 @@ final class BootFiles implements Bootstrapper
 
     private function bootDatasets(string $testsPath): void
     {
+        assert(strlen($testsPath) > 0);
+
         $files = (new PhpUnitFileIterator)->getFilesAsArray($testsPath, '.php');
 
         foreach ($files as $file) {

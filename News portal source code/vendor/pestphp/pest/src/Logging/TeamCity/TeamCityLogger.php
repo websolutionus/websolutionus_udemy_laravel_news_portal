@@ -6,6 +6,7 @@ namespace Pest\Logging\TeamCity;
 
 use NunoMaduro\Collision\Adapters\Phpunit\Style;
 use Pest\Exceptions\ShouldNotHappen;
+use Pest\Logging\Converter;
 use Pest\Logging\TeamCity\Subscriber\TestConsideredRiskySubscriber;
 use Pest\Logging\TeamCity\Subscriber\TestErroredSubscriber;
 use Pest\Logging\TeamCity\Subscriber\TestExecutionFinishedSubscriber;
@@ -60,7 +61,7 @@ final class TeamCityLogger
     public function __construct(
         private readonly OutputInterface $output,
         private readonly Converter $converter,
-        private readonly int|null $flowId,
+        private readonly ?int $flowId,
         private readonly bool $withoutDuration,
     ) {
         $this->registerSubscribers();

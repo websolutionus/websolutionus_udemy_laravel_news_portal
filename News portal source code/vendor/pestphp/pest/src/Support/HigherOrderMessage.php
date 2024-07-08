@@ -62,7 +62,7 @@ final class HigherOrderMessage
             Reflection::setPropertyValue($throwable, 'file', $this->filename);
             Reflection::setPropertyValue($throwable, 'line', $this->line);
 
-            if ($throwable->getMessage() === self::getUndefinedMethodMessage($target, $this->name)) {
+            if ($throwable->getMessage() === $this->getUndefinedMethodMessage($target, $this->name)) {
                 /** @var ReflectionClass<TValue> $reflection */
                 $reflection = new ReflectionClass($target);
                 /* @phpstan-ignore-next-line */
@@ -94,7 +94,7 @@ final class HigherOrderMessage
         return in_array($this->name, get_class_methods(HigherOrderCallables::class), true);
     }
 
-    private static function getUndefinedMethodMessage(object $target, string $methodName): string
+    private function getUndefinedMethodMessage(object $target, string $methodName): string
     {
         if (\PHP_MAJOR_VERSION >= 8) {
             return sprintf(self::UNDEFINED_METHOD, sprintf('%s::%s()', $target::class, $methodName));

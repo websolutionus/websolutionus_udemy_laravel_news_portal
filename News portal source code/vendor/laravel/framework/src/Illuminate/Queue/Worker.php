@@ -13,6 +13,7 @@ use Illuminate\Queue\Events\JobPopping;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\JobReleasedAfterException;
+use Illuminate\Queue\Events\JobTimedOut;
 use Illuminate\Queue\Events\Looping;
 use Illuminate\Queue\Events\WorkerStopping;
 use Illuminate\Support\Carbon;
@@ -110,7 +111,7 @@ class Worker
                                 Dispatcher $events,
                                 ExceptionHandler $exceptions,
                                 callable $isDownForMaintenance,
-                                callable $resetScope = null)
+                                ?callable $resetScope = null)
     {
         $this->events = $events;
         $this->manager = $manager;
@@ -213,7 +214,7 @@ class Worker
         pcntl_signal(SIGALRM, function () use ($job, $options) {
             if ($job) {
                 $this->markJobAsFailedIfWillExceedMaxAttempts(
-                    $job->getConnectionName(), $job, (int) $options->maxTries, $e = $this->timoutExceededException($job)
+                    $job->getConnectionName(), $job, (int) $options->maxTries, $e = $this->timeoutExceededException($job)
                 );
 
                 $this->markJobAsFailedIfWillExceedMaxExceptions(
@@ -223,6 +224,10 @@ class Worker
                 $this->markJobAsFailedIfItShouldFailOnTimeout(
                     $job->getConnectionName(), $job, $e
                 );
+
+                $this->events->dispatch(new JobTimedOut(
+                    $job->getConnectionName(), $job
+                ));
             }
 
             $this->kill(static::EXIT_ERROR, $options);
@@ -777,9 +782,7 @@ class Worker
      */
     protected function maxAttemptsExceededException($job)
     {
-        return new MaxAttemptsExceededException(
-            $job->resolveName().' has been attempted too many times.'
-        );
+        return MaxAttemptsExceededException::forJob($job);
     }
 
     /**
@@ -788,11 +791,9 @@ class Worker
      * @param  \Illuminate\Contracts\Queue\Job  $job
      * @return \Illuminate\Queue\TimeoutExceededException
      */
-    protected function timoutExceededException($job)
+    protected function timeoutExceededException($job)
     {
-        return new TimeoutExceededException(
-            $job->resolveName().' has timed out.'
-        );
+        return TimeoutExceededException::forJob($job);
     }
 
     /**

@@ -16,6 +16,7 @@ use function serialize;
 use function unserialize;
 use PHPUnit\Event\Facade as EventFacade;
 use PHPUnit\TextUI\CliArguments\Configuration as CliConfiguration;
+use PHPUnit\TextUI\CliArguments\Exception;
 use PHPUnit\TextUI\XmlConfiguration\Configuration as XmlConfiguration;
 use PHPUnit\Util\VersionComparisonOperator;
 
@@ -33,7 +34,7 @@ final class Registry
     {
         $result = file_put_contents(
             $path,
-            serialize(self::get())
+            serialize(self::get()),
         );
 
         if ($result) {
@@ -77,7 +78,7 @@ final class Registry
                     VersionComparisonOperator::class,
                     Source::class,
                 ],
-            ]
+            ],
         );
     }
 
@@ -89,8 +90,8 @@ final class Registry
     }
 
     /**
-     * @throws \PHPUnit\TextUI\CliArguments\Exception
      * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
+     * @throws Exception
      * @throws NoCustomCssFileException
      */
     public static function init(CliConfiguration $cliConfiguration, XmlConfiguration $xmlConfiguration): Configuration

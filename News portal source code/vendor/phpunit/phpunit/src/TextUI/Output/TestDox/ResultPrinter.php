@@ -20,7 +20,6 @@ use function rtrim;
 use function str_starts_with;
 use function trim;
 use PHPUnit\Event\Code\Throwable;
-use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 use PHPUnit\Framework\TestStatus\TestStatus;
 use PHPUnit\Logging\TestDox\TestResult as TestDoxTestResult;
 use PHPUnit\Logging\TestDox\TestResultCollection;
@@ -76,18 +75,12 @@ final class ResultPrinter
         $this->printer->print($buffer . PHP_EOL);
     }
 
-    /**
-     * @throws NoDataSetFromDataProviderException
-     */
     private function printTestResult(TestDoxTestResult $test): void
     {
         $this->printTestResultHeader($test);
         $this->printTestResultBody($test);
     }
 
-    /**
-     * @throws NoDataSetFromDataProviderException
-     */
     private function printTestResultHeader(TestDoxTestResult $test): void
     {
         $buffer = ' ' . $this->symbolFor($test->status()) . ' ';
@@ -96,8 +89,8 @@ final class ResultPrinter
             $this->printer->print(
                 Color::colorizeTextBox(
                     $this->colorFor($test->status()),
-                    $buffer
-                )
+                    $buffer,
+                ),
             );
         } else {
             $this->printer->print($buffer);
@@ -126,8 +119,8 @@ final class ResultPrinter
         $this->printer->print(
             $this->prefixLines(
                 $this->prefixFor('start', $test->status()),
-                ''
-            )
+                '',
+            ),
         );
 
         $this->printer->print(PHP_EOL);
@@ -140,8 +133,8 @@ final class ResultPrinter
         $this->printer->print(
             $this->prefixLines(
                 $this->prefixFor('last', $test->status()),
-                ''
-            )
+                '',
+            ),
         );
 
         $this->printer->print(PHP_EOL);
@@ -160,7 +153,7 @@ final class ResultPrinter
         if (!empty($message) && $this->colors) {
             ['message' => $message, 'diff' => $diff] = $this->colorizeMessageAndDiff(
                 $message,
-                $this->messageColorFor($test->status())
+                $this->messageColorFor($test->status()),
             );
         }
 
@@ -168,8 +161,8 @@ final class ResultPrinter
             $this->printer->print(
                 $this->prefixLines(
                     $this->prefixFor('message', $test->status()),
-                    $message
-                )
+                    $message,
+                ),
             );
 
             $this->printer->print(PHP_EOL);
@@ -179,8 +172,8 @@ final class ResultPrinter
             $this->printer->print(
                 $this->prefixLines(
                     $this->prefixFor('diff', $test->status()),
-                    $diff
-                )
+                    $diff,
+                ),
             );
 
             $this->printer->print(PHP_EOL);
@@ -194,7 +187,7 @@ final class ResultPrinter
             }
 
             $this->printer->print(
-                $this->prefixLines($prefix, PHP_EOL . $stackTrace)
+                $this->prefixLines($prefix, PHP_EOL . $stackTrace),
             );
         }
     }
@@ -272,8 +265,8 @@ final class ResultPrinter
             PHP_EOL,
             array_map(
                 static fn (string $line) => '   ' . $prefix . ($line ? ' ' . $line : ''),
-                preg_split('/\r\n|\r|\n/', $message)
-            )
+                preg_split('/\r\n|\r|\n/', $message),
+            ),
         );
     }
 
@@ -294,8 +287,8 @@ final class ResultPrinter
                 'message' => '├',
                 'diff'    => '┊',
                 'trace'   => '╵',
-                'last'    => '┴'
-            }
+                'last'    => '┴',
+            },
         );
     }
 
@@ -317,7 +310,7 @@ final class ResultPrinter
             return 'fg-cyan';
         }
 
-        if ($status->isRisky() || $status->isIncomplete() || $status->isWarning()) {
+        if ($status->isIncomplete() || $status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
             return 'fg-yellow';
         }
 
@@ -342,7 +335,7 @@ final class ResultPrinter
             return 'fg-cyan';
         }
 
-        if ($status->isRisky() || $status->isIncomplete() || $status->isWarning()) {
+        if ($status->isIncomplete() || $status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
             return 'fg-yellow';
         }
 
@@ -363,16 +356,12 @@ final class ResultPrinter
             return '↩';
         }
 
-        if ($status->isRisky()) {
-            return '☢';
+        if ($status->isDeprecation() || $status->isNotice() || $status->isRisky() || $status->isWarning()) {
+            return '⚠';
         }
 
         if ($status->isIncomplete()) {
             return '∅';
-        }
-
-        if ($status->isWarning()) {
-            return '⚠';
         }
 
         return '?';

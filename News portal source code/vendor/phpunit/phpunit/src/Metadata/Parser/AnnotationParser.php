@@ -10,6 +10,7 @@
 namespace PHPUnit\Metadata\Parser;
 
 use function array_merge;
+use function assert;
 use function count;
 use function explode;
 use function method_exists;
@@ -150,8 +151,8 @@ final class AnnotationParser implements Parser
             $result,
             $this->parseRequirements(
                 AnnotationRegistry::getInstance()->forClassName($className)->requirements(),
-                'class'
-            )
+                'class',
+            ),
         );
 
         return MetadataCollection::fromArray($result);
@@ -249,15 +250,18 @@ final class AnnotationParser implements Parser
                         }
 
                         if (str_contains($value, '::')) {
-                            [$className, $methodName] = explode('::', $value);
+                            [$_className, $_methodName] = explode('::', $value);
 
-                            if ($methodName === 'class') {
-                                $result[] = Metadata::dependsOnClass($className, $deepClone, $shallowClone);
+                            assert($_className !== '');
+                            assert($_methodName !== '');
+
+                            if ($_methodName === 'class') {
+                                $result[] = Metadata::dependsOnClass($_className, $deepClone, $shallowClone);
 
                                 continue;
                             }
 
-                            $result[] = Metadata::dependsOnMethod($className, $methodName, $deepClone, $shallowClone);
+                            $result[] = Metadata::dependsOnMethod($_className, $_methodName, $deepClone, $shallowClone);
 
                             continue;
                         }
@@ -289,7 +293,7 @@ final class AnnotationParser implements Parser
 
                         $result[] = Metadata::excludeStaticPropertyFromBackupOnMethod(
                             trim($tmp[0]),
-                            trim($tmp[1])
+                            trim($tmp[1]),
                         );
                     }
 
@@ -364,8 +368,8 @@ final class AnnotationParser implements Parser
                 $result,
                 $this->parseRequirements(
                     AnnotationRegistry::getInstance()->forMethod($className, $methodName)->requirements(),
-                    'method'
-                )
+                    'method',
+                ),
             );
         }
 
@@ -383,7 +387,7 @@ final class AnnotationParser implements Parser
     public function forClassAndMethod(string $className, string $methodName): MetadataCollection
     {
         return $this->forClass($className)->mergeWith(
-            $this->forMethod($className, $methodName)
+            $this->forMethod($className, $methodName),
         );
     }
 
@@ -415,7 +419,7 @@ final class AnnotationParser implements Parser
         if (!empty($requirements['PHP'])) {
             $versionRequirement = new ComparisonRequirement(
                 $requirements['PHP']['version'],
-                new VersionComparisonOperator(empty($requirements['PHP']['operator']) ? '>=' : $requirements['PHP']['operator'])
+                new VersionComparisonOperator(empty($requirements['PHP']['operator']) ? '>=' : $requirements['PHP']['operator']),
             );
 
             if ($level === 'class') {
@@ -451,7 +455,7 @@ final class AnnotationParser implements Parser
             foreach ($requirements['extension_versions'] as $extension => $version) {
                 $versionRequirement = new ComparisonRequirement(
                     $version['version'],
-                    new VersionComparisonOperator(empty($version['operator']) ? '>=' : $version['operator'])
+                    new VersionComparisonOperator(empty($version['operator']) ? '>=' : $version['operator']),
                 );
 
                 if ($level === 'class') {
@@ -465,7 +469,7 @@ final class AnnotationParser implements Parser
         if (!empty($requirements['PHPUnit'])) {
             $versionRequirement = new ComparisonRequirement(
                 $requirements['PHPUnit']['version'],
-                new VersionComparisonOperator(empty($requirements['PHPUnit']['operator']) ? '>=' : $requirements['PHPUnit']['operator'])
+                new VersionComparisonOperator(empty($requirements['PHPUnit']['operator']) ? '>=' : $requirements['PHPUnit']['operator']),
             );
 
             if ($level === 'class') {

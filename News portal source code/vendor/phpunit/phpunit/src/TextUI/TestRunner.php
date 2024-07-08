@@ -12,7 +12,6 @@ namespace PHPUnit\TextUI;
 use function mt_srand;
 use PHPUnit\Event;
 use PHPUnit\Framework\TestSuite;
-use PHPUnit\Runner\Filter\Factory;
 use PHPUnit\Runner\ResultCache\ResultCache;
 use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\TextUI\Configuration\Configuration;
@@ -44,20 +43,20 @@ final class TestRunner
                     $suite,
                     $configuration->executionOrder(),
                     $configuration->resolveDependencies(),
-                    $configuration->executionOrderDefects()
+                    $configuration->executionOrderDefects(),
                 );
 
                 Event\Facade::emitter()->testSuiteSorted(
                     $configuration->executionOrder(),
                     $configuration->executionOrderDefects(),
-                    $configuration->resolveDependencies()
+                    $configuration->resolveDependencies(),
                 );
             }
 
-            (new TestSuiteFilterProcessor(new Factory))->process($configuration, $suite);
+            (new TestSuiteFilterProcessor)->process($configuration, $suite);
 
             Event\Facade::emitter()->testRunnerExecutionStarted(
-                Event\TestSuite\TestSuiteBuilder::from($suite)
+                Event\TestSuite\TestSuiteBuilder::from($suite),
             );
 
             $suite->run();
@@ -68,7 +67,7 @@ final class TestRunner
             throw new RuntimeException(
                 $t->getMessage(),
                 (int) $t->getCode(),
-                $t
+                $t,
             );
         }
     }

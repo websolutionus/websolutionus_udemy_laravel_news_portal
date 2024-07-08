@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ParaTest\WrapperRunner;
 
+use Generator;
 use ParaTest\Options;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
@@ -23,10 +24,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function array_keys;
 use function assert;
 use function count;
+use function is_int;
 use function is_string;
 use function mt_srand;
 use function ob_get_clean;
 use function ob_start;
+use function sprintf;
 use function str_starts_with;
 use function strlen;
 use function substr;
@@ -36,7 +39,7 @@ final class SuiteLoader
 {
     public readonly int $testCount;
     /** @var list<non-empty-string> */
-    public readonly array $files;
+    public readonly array $tests;
 
     public function __construct(
         private readonly Options $options,
@@ -73,8 +76,36 @@ final class SuiteLoader
         $this->testCount = count($testSuite);
 
         $files = [];
-        $this->loadFiles($testSuite, $files);
-        $this->files = array_keys($files);
+        $tests = [];
+        foreach ($this->loadFiles($testSuite) as $file => $test) {
+            $files[$file] = null;
+
+            if ($test instanceof PhptTestCase) {
+                $tests[] = $file;
+            } else {
+                $name = $test->name();
+                if ($test->providedData() !== []) {
+                    $dataName = $test->dataName();
+                    if ($this->options->functional) {
+                        $name = sprintf('/%s\s.*%s.*$/', $name, $dataName);
+                    } else {
+                        if (is_int($dataName)) {
+                            $name .= '#' . $dataName;
+                        } else {
+                            $name .= '@' . $dataName;
+                        }
+                    }
+                } else {
+                    $name = sprintf('/%s$/', $name);
+                }
+
+                $tests[] = "$file\0$name";
+            }
+        }
+
+        $this->tests = $this->options->functional
+            ? $tests
+            : array_keys($files);
 
         if (! $this->options->configuration->hasCoverageReport()) {
             return;
@@ -94,12 +125,13 @@ final class SuiteLoader
         }
     }
 
-    /** @param array<non-empty-string, bool> $files */
-    private function loadFiles(TestSuite $testSuite, array &$files): void
+    /** @return Generator<non-empty-string, (PhptTestCase|TestCase)> */
+    private function loadFiles(TestSuite $testSuite): Generator
     {
         foreach ($testSuite as $test) {
             if ($test instanceof TestSuite) {
-                $this->loadFiles($test, $files);
+                yield from $this->loadFiles($test);
+
                 continue;
             }
 
@@ -107,8 +139,9 @@ final class SuiteLoader
                 $refProperty = new ReflectionProperty(PhptTestCase::class, 'filename');
                 $filename    = $refProperty->getValue($test);
                 assert(is_string($filename) && $filename !== '');
-                $filename         = $this->stripCwd($filename);
-                $files[$filename] = true;
+                $filename = $this->stripCwd($filename);
+
+                yield $filename => $test;
 
                 continue;
             }
@@ -117,8 +150,9 @@ final class SuiteLoader
                 $refClass = new ReflectionClass($test);
                 $filename = $refClass->getFileName();
                 assert(is_string($filename) && $filename !== '');
-                $filename         = $this->stripCwd($filename);
-                $files[$filename] = true;
+                $filename = $this->stripCwd($filename);
+
+                yield $filename => $test;
 
                 continue;
             }

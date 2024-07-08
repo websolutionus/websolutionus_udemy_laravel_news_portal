@@ -3,6 +3,7 @@
 namespace Illuminate\Http\Client;
 
 use Closure;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response as Psr7Response;
@@ -27,6 +28,20 @@ class Factory
      * @var \Illuminate\Contracts\Events\Dispatcher|null
      */
     protected $dispatcher;
+
+    /**
+     * The middleware to apply to every request.
+     *
+     * @var array
+     */
+    protected $globalMiddleware = [];
+
+    /**
+     * The options to apply to every request.
+     *
+     * @var \Closure|array
+     */
+    protected $globalOptions = [];
 
     /**
      * The stub callables that will handle requests.
@@ -69,11 +84,63 @@ class Factory
      * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
-    public function __construct(Dispatcher $dispatcher = null)
+    public function __construct(?Dispatcher $dispatcher = null)
     {
         $this->dispatcher = $dispatcher;
 
         $this->stubCallbacks = collect();
+    }
+
+    /**
+     * Add middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = $middleware;
+
+        return $this;
+    }
+
+    /**
+     * Add request middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalRequestMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = Middleware::mapRequest($middleware);
+
+        return $this;
+    }
+
+    /**
+     * Add response middleware to apply to every request.
+     *
+     * @param  callable  $middleware
+     * @return $this
+     */
+    public function globalResponseMiddleware($middleware)
+    {
+        $this->globalMiddleware[] = Middleware::mapResponse($middleware);
+
+        return $this;
+    }
+
+    /**
+     * Set the options to apply to every request.
+     *
+     * @param  \Closure|array  $options
+     * @return $this
+     */
+    public function globalOptions($options)
+    {
+        $this->globalOptions = $options;
+
+        return $this;
     }
 
     /**
@@ -351,9 +418,21 @@ class Factory
      *
      * @return \Illuminate\Http\Client\PendingRequest
      */
+    public function createPendingRequest()
+    {
+        return tap($this->newPendingRequest(), function ($request) {
+            $request->stub($this->stubCallbacks)->preventStrayRequests($this->preventStrayRequests);
+        });
+    }
+
+    /**
+     * Instantiate a new pending request instance for this factory.
+     *
+     * @return \Illuminate\Http\Client\PendingRequest
+     */
     protected function newPendingRequest()
     {
-        return new PendingRequest($this);
+        return (new PendingRequest($this, $this->globalMiddleware))->withOptions(value($this->globalOptions));
     }
 
     /**
@@ -364,6 +443,16 @@ class Factory
     public function getDispatcher()
     {
         return $this->dispatcher;
+    }
+
+    /**
+     * Get the array of global middleware.
+     *
+     * @return array
+     */
+    public function getGlobalMiddleware()
+    {
+        return $this->globalMiddleware;
     }
 
     /**
@@ -379,8 +468,6 @@ class Factory
             return $this->macroCall($method, $parameters);
         }
 
-        return tap($this->newPendingRequest(), function ($request) {
-            $request->stub($this->stubCallbacks)->preventStrayRequests($this->preventStrayRequests);
-        })->{$method}(...$parameters);
+        return $this->createPendingRequest()->{$method}(...$parameters);
     }
 }
