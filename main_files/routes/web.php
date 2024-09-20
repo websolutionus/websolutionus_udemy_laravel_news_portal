@@ -40,7 +40,7 @@ Route::get('news', [HomeController::class, 'news'])->name('news');
 
 /** News Comment Routes */
 Route::post('news-comment', [HomeController::class, 'handleComment'])->name('news-comment');
-Route::post('news-comment-replay', [HomeController::class, 'handleReplay'])->name('news-comment-replay');
+Route::post('news-comment-reply', [HomeController::class, 'handleReply'])->name('news-comment-reply');
 
 Route::delete('news-comment-destroy', [HomeController::class, 'commentDestory'])->name('news-comment-destroy');
 

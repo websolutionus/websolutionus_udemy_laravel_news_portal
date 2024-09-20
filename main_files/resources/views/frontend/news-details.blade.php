@@ -258,9 +258,9 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('news-comment-replay') }}" method="POST">
+                                            <form action="{{ route('news-comment-reply') }}" method="POST">
                                                 @csrf
-                                                <textarea name="replay" cols="30" rows="7" placeholder="Type. . ."></textarea>
+                                                <textarea name="reply" cols="30" rows="7" placeholder="Type. . ."></textarea>
                                                 <input type="hidden" name="news_id" value="{{ $news->id }}">
                                                 <input type="hidden" name="parent_id" value="{{ $comment->id }}">
 
